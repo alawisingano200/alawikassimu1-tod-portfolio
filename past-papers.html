@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore free primary school past papers and examinations on Alawi T.O.D Educational Resources.">
+  <title>Past Papers Library | Alawi T.O.D</title>
+
+  <style>
+    :root {
+      --navy: #102b46;
+      --green: #16845b;
+      --light-green: #e8f5ee;
+      --background: #f5f7fa;
+      --text: #243447;
+      --muted: #64748b;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .navbar {
+      background: var(--navy);
+      color: white;
+      padding: 16px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: #65d6a1;
+    }
+
+    .home-link {
+      color: white;
+      border: 1px solid #8ca3b8;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .hero {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 48px 20px 58px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin: 0 0 12px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 0 auto 24px;
+      color: #d7e5f1;
+    }
+
+    .free-label {
+      display: inline-block;
+      background: var(--light-green);
+      color: #08633f;
+      border-radius: 30px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 32px 0 50px;
+    }
+
+    .search-panel {
+      background: white;
+      border: 1px solid #e1e7ed;
+      border-radius: 16px;
+      padding: 22px;
+      margin-top: -58px;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(16, 43, 70, 0.08);
+    }
+
+    .search-panel label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .search-input,
+    .filter-select {
+      width: 100%;
+      min-width: 0;
+      padding: 12px 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      background: white;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .section-heading {
+      margin: 34px 0 16px;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 4px;
+      color: var(--navy);
+      font-size: 24px;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .class-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .class-button {
+      background: white;
+      color: var(--navy);
+      border: 1px solid #dbe3eb;
+      border-radius: 10px;
+      padding: 13px 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .class-button:hover,
+    .class-button.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .results-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 24px 0 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .exam-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .exam-card {
+      background: white;
+      border: 1px solid #e1e7ed;
+      border-radius: 13px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 9px;
+    }
+
+    .exam-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--light-green);
+      font-size: 22px;
+    }
+
+    .exam-card h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 18px;
+    }
+
+    .exam-meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .download-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+
+    .download-link {
+      display: inline-block;
+      background: var(--green);
+      color: white;
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .download-link:hover {
+      background: #08633f;
+    }
+
+    .empty-state {
+      background: white;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
+
+    .note {
+      background: var(--light-green);
+      color: #245640;
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 28px;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      background: var(--navy);
+      color: #d7e5f1;
+      padding: 24px 16px;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: #65d6a1;
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 14px 5%;
+      }
+
+      .brand {
+        font-size: 19px;
+      }
+
+      .hero {
+        padding: 38px 18px 70px;
+      }
+
+      .filters,
+      .exam-list {
+        grid-template-columns: 1fr;
+      }
+
+      .class-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .search-panel {
+        padding: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <a class="brand" href="index.html">Alawi <span>T.O.D</span></a>
+    <a class="home-link" href="index.html">← Back to Home</a>
+  </header>
+
+  <section class="hero">
+    <h1>Past Papers Library</h1>
+    <p>
+      Find primary school examinations and practice papers.
+      Search by class, subject or examination name.
+    </p>
+    <span class="free-label">Free Educational Resources</span>
+  </section>
+
+  <main>
+    <section class="search-panel">
+      <label for="searchInput">Search examinations</label>
+      <input
+        class="search-input"
+        id="searchInput"
+        type="search"
+        placeholder="e.g. English, Standard Two, 2026..."
+      >
+
+      <div class="filters">
+        <div>
+          <label for="classFilter">Choose class</label>
+          <select class="filter-select" id="classFilter">
+            <option value="">All classes</option>
+            <option value="Standard One">Standard One</option>
+            <option value="Standard Two">Standard Two</option>
+            <option value="Standard Three">Standard Three</option>
+            <option value="Standard Four">Standard Four</option>
+            <option value="Standard Five">Standard Five</option>
+            <option value="Standard Six">Standard Six</option>
+            <option value="Standard Seven">Standard Seven</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="subjectFilter">Choose subject</label>
+          <select class="filter-select" id="subjectFilter">
+            <option value="">All subjects</option>
+            <option value="Learn English">Learn English</option>
+            <option value="Writing Skills">Writing Skills</option>
+            <option value="Stadi za Kuandika">Stadi za Kuandika</option>
+            <option value="Culture, Art and Sports">Culture, Art and Sports</option>
+            <option value="Health Care and Environment">Health Care and Environment</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Kiswahili">Kiswahili</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <h2>Browse by Class</h2>
+        <p>Select a class to explore its available examinations.</p>
+      </div>
+
+      <div class="class-grid">
+        <button class="class-button" data-class="Standard One">Standard One</button>
+        <button class="class-button" data-class="Standard Two">Standard Two</button>
+        <button class="class-button" data-class="Standard Three">Standard Three</button>
+        <button class="class-button" data-class="Standard Four">Standard Four</button>
+        <button class="class-button" data-class="Standard Five">Standard Five</button>
+        <button class="class-button" data-class="Standard Six">Standard Six</button>
+        <button class="class-button" data-class="Standard Seven">Standard Seven</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <h2>Available Examinations</h2>
+        <p>Choose an examination and download the available file.</p>
+      </div>
+
+      <div class="results-info">
+        <span id="resultsCount">5 examinations</span>
+        <span>Free downloads</span>
+      </div>
+
+      <div class="exam-list" id="examList"></div>
+    </section>
+
+    <div class="note">
+      <strong>More resources coming soon!</strong>
+      We will continue adding examinations and worksheets for more classes and subjects.
+    </div>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Alawi T.O.D. Educational Resources.</p>
+    <p><a href="index.html">Return to Home</a></p>
+  </footer>
+
+  <script>
+    /*
+      File links will be added after the examination files
+      have been uploaded to GitHub.
+    */
+    const examinations = [
+      {
+        title: "Learn English",
+        className: "Standard Two",
+        subject: "Learn English",
+        type: "Terminal Assessment",
+        year: "2026",
+        files: []
+      },
+      {
+        title: "Writing Skills",
+        className: "Standard Two",
+        subject: "Writing Skills",
+        type: "Terminal Assessment",
+        year: "2026",
+        files: []
+      },
+      {
+        title: "Stadi za Kuandika",
+        className: "Standard Two",
+        subject: "Stadi za Kuandika",
+        type: "Terminal Assessment",
+        year: "2026",
+        files: []
+      },
+      {
+        title: "Culture, Art and Sports",
+        className: "Standard Two",
+        subject: "Culture, Art and Sports",
+        type: "Terminal Assessment",
+        year: "2026",
+        files: []
+      },
+      {
+        title: "Health Care and Environment",
+        className: "Standard Two",
+        subject: "Health Care and Environment",
+        type: "Terminal Assessment",
+        year: "2026",
+        files: []
+      }
+    ];
+
+    const searchInput = document.getElementById("searchInput");
+    const classFilter = document.getElementById("classFilter");
+    const subjectFilter = document.getElementById("subjectFilter");
+    const examList = document.getElementById("examList");
+    const resultsCount = document.getElementById("resultsCount");
+    const classButtons = document.querySelectorAll(".class-button");
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function renderExaminations() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedClass = classFilter.value;
+      const selectedSubject = subjectFilter.value;
+
+      const filtered = examinations.filter(exam => {
+        const searchable = [
+          exam.title,
+          exam.className,
+          exam.subject,
+          exam.type,
+          exam.year
+        ].join(" ").toLowerCase();
+
+        return searchable.includes(query) &&
+          (!selectedClass || exam.className === selectedClass) &&
+          (!selectedSubject || exam.subject === selectedSubject);
+      });
+
+      resultsCount.textContent =
+        filtered.length + (filtered.length === 1
+          ? " examination"
+          : " examinations");
+
+      examList.innerHTML = "";
+
+      if (filtered.length === 0) {
+        examList.innerHTML =
+          '<div class="empty-state">No examinations match your search. Try another class or subject.</div>';
+        return;
+      }
+
+      filtered.forEach(exam => {
+        const card = document.createElement("article");
+        card.className = "exam-card";
+
+        const icon = document.createElement("div");
+        icon.className = "exam-icon";
+        icon.textContent = "📄";
+
+        const title = document.createElement("h3");
+        title.textContent = exam.title;
+
+        const meta = document.createElement("p");
+        meta.className = "exam-meta";
+        meta.textContent =
+          exam.className + " · " + exam.type + " · " + exam.year;
+
+        const links = document.createElement("div");
+        links.className = "download-links";
+
+        if (exam.files.length === 0) {
+          const pending = document.createElement("p");
+          pending.className = "exam-meta";
+          pending.textContent = "Download files will be added soon.";
+          links.appendChild(pending);
+        } else {
+          exam.files.forEach(file => {
+            const link = document.createElement("a");
+            link.className = "download-link";
+            link.href = file.url;
+            link.textContent = "Download " + file.format;
+            link.setAttribute("download", "");
+            links.appendChild(link);
+          });
+        }
+
+        card.append(icon, title, meta, links);
+        examList.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener("input", renderExaminations);
+    classFilter.addEventListener("change", renderExaminations);
+    subjectFilter.addEventListener("change", renderExaminations);
+
+    classButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        classFilter.value = button.dataset.class;
+        renderExaminations();
+        document.querySelector(".search-panel").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+    });
+
+    renderExaminations();
+  </script>
+</body>
+</html>
