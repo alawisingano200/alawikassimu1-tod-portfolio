@@ -300,6 +300,74 @@
         padding: 17px;
       }
     }
+    /* ENHANCED PAST PAPERS LIBRARY */
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .navbar {
+      box-shadow: 0 3px 14px rgba(16, 43, 70, 0.12);
+    }
+
+    .home-link {
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .home-link:hover {
+      background: white;
+      color: var(--navy);
+    }
+
+    .search-input,
+    .filter-select {
+      min-height: 48px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-input:focus,
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(22, 132, 91, 0.14);
+    }
+
+    .exam-card {
+      min-width: 0;
+      box-shadow: 0 4px 14px rgba(16, 43, 70, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .exam-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(16, 43, 70, 0.09);
+    }
+
+    .download-link {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .download-link:hover {
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      .exam-card {
+        padding: 18px;
+      }
+
+      .download-links {
+        width: 100%;
+      }
+
+      .class-button {
+        min-height: 46px;
+      }
+    }
   </style>
 </head>
 
@@ -315,7 +383,7 @@
       Find primary school examinations and practice papers.
       Search by class, subject or examination name.
     </p>
-    <span class="free-label">Free Educational Resources</span>
+    <span class="free-label">Free Educational Resources by Alawi</span>
   </section>
 
   <main>
