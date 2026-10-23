@@ -644,7 +644,7 @@
             const link = document.createElement("a");
             link.className = "download-link";
             link.href = file.url;
-            link.textContent = "Download " + file.format;
+            link.textContent = file.name;
             link.setAttribute("download", "");
             links.appendChild(link);
           });
