@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TIE Textbook Library | Alawi T.O.D</title>
+
+  <meta name="description" content="Explore primary school textbooks from Baby Class to Standard Six, organized by class and subject.">
+
+  <style>
+    :root {
+      --navy: #102a43;
+      --navy-light: #243f5a;
+      --green: #198754;
+      --green-light: #e8f5ed;
+      --white: #ffffff;
+      --background: #f4f7fb;
+      --text: #243447;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 8px 25px rgba(16, 42, 67, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .navbar {
+      background: var(--navy);
+      color: var(--white);
+      padding: 17px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: var(--white);
+      font-size: 23px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: #55d98a;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 19px;
+    }
+
+    .nav-links a {
+      color: #e8eef5;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #55d98a;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      text-align: center;
+      padding: 65px 20px 70px;
+    }
+
+    .syllabus-badge {
+      display: inline-block;
+      background: #d8fbe5;
+      color: #12683b;
+      border: 1px solid #9ce9b9;
+      padding: 9px 17px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 45px);
+      line-height: 1.2;
+      margin-bottom: 17px;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto;
+      color: #dbe7f2;
+      font-size: 16px;
+    }
+
+    .hero-line {
+      width: 75px;
+      height: 4px;
+      background: #55d98a;
+      border-radius: 10px;
+      margin: 25px auto 0;
+    }
+
+    .container {
+      width: 88%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .library-section {
+      padding: 45px 0 65px;
+    }
+
+    .section-heading {
+      margin-bottom: 23px;
+    }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: 25px;
+      margin-bottom: 7px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .class-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 15px;
+      margin-bottom: 42px;
+    }
+
+    .class-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 12px;
+      text-align: center;
+      cursor: pointer;
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 700;
+      transition: 0.2s ease;
+      box-shadow: 0 3px 12px rgba(16, 42, 67, 0.03);
+    }
+
+    .class-card .class-icon {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .class-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--green);
+    }
+
+    .class-card.active {
+      background: var(--green-light);
+      border: 2px solid var(--green);
+      color: #12683b;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .toolbar h2 {
+      color: var(--navy);
+      font-size: 24px;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 370px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      background: var(--white);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.1);
+    }
+
+    .results-info {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .book-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .book-cover {
+      height: 190px;
+      background: linear-gradient(135deg, #e8f5ed, #dbeafe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .cover-placeholder {
+      text-align: center;
+      color: var(--navy);
+      padding: 20px;
+    }
+
+    .cover-placeholder span {
+      display: block;
+      font-size: 43px;
+      margin-bottom: 8px;
+    }
+
+    .cover-placeholder strong {
+      font-size: 13px;
+    }
+
+    .book-details {
+      padding: 20px;
+    }
+
+    .book-subject {
+      display: inline-block;
+      background: var(--green-light);
+      color: #12683b;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .book-details h3 {
+      color: var(--navy);
+      font-size: 18px;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .book-meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .book-actions {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .book-button {
+      display: inline-block;
+      padding: 10px 13px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .open-button {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .download-button {
+      background: var(--green-light);
+      color: #12683b;
+      border: 1px solid #c3e8d0;
+    }
+
+    .empty-state {
+      background: var(--white);
+      border: 1px dashed #b8c6d6;
+      border-radius: 13px;
+      text-align: center;
+      padding: 45px 22px;
+      margin-top: 10px;
+    }
+
+    .empty-state .empty-icon {
+      font-size: 43px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      color: var(--navy);
+      font-size: 21px;
+      margin-bottom: 9px;
+    }
+
+    .empty-state p {
+      max-width: 550px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .information-box {
+      margin-top: 35px;
+      padding: 19px 21px;
+      border-left: 4px solid var(--green);
+      border-radius: 7px;
+      background: var(--green-light);
+      color: #285b40;
+      font-size: 13px;
+    }
+
+    .information-box strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      background: var(--navy);
+      color: #dbe7f2;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 13px;
+    }
+
+    footer strong {
+      color: #55d98a;
+    }
+
+    @media (max-width: 900px) {
+      .class-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .books-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .navbar {
+        justify-content: center;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 17px 5%;
+        gap: 15px;
+      }
+
+      .brand {
+        font-size: 22px;
+      }
+
+      .nav-links {
+        gap: 12px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: 48px 18px 53px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .container {
+        width: 91%;
+      }
+
+      .library-section {
+        padding: 32px 0 45px;
+      }
+
+      .section-heading h2,
+      .toolbar h2 {
+        font-size: 21px;
+      }
+
+      .class-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+        margin-bottom: 34px;
+      }
+
+      .class-card {
+        padding: 16px 8px;
+        font-size: 12px;
+      }
+
+      .toolbar {
+        align-items: stretch;
+      }
+
+      .search-box {
+        max-width: none;
+      }
+
+      .books-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .book-cover {
+        height: 210px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a class="brand" href="index.html">
+      Alawi <span>T.O.D</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="lesson-plans.html">Lesson Plans &amp; Notes</a>
+      <a href="past-papers.html">Past Papers</a>
+      <a href="tie-textbooks.html" class="active">TIE Textbooks</a>
+      <a href="about.html">About Me</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="syllabus-badge">NEW SYLLABUS EDITION</div>
+
+    <h1>TIE TEXTBOOK LIBRARY</h1>
+
+    <p>
+      Explore primary school textbooks and learning materials,
+      organized by class and subject, from Baby Class to Standard Six.
+    </p>
+
+    <div class="hero-line"></div>
+  </section>
+
+  <main class="container library-section">
+
+    <div class="section-heading">
+      <h2>Choose Your Class</h2>
+      <p>Select a class to explore its available textbooks.</p>
+    </div>
+
+    <div class="class-grid" id="classGrid">
+
+      <button class="class-card active" type="button" data-class="All Classes">
+        <span class="class-icon">📚</span>
+        All Classes
+      </button>
+
+      <button class="class-card" type="button" data-class="Baby Class">
+        <span class="class-icon">🧸</span>
+        Baby Class
+      </button>
+
+      <button class="class-card" type="button" data-class="Standard One">
+        <span class="class-icon">📘</span>
+        Standard One
+      </button>
+
+      <button class="class-card" type="button" data-class="Standard Two">
+        <span class="class-icon">📗</span>
+        Standard Two
+      </button>
+
+      <button class="class-card" type="button" data-class="Standard Three">
+        <span class="class-icon">📙</span>
+        Standard Three
+      </button>
+
+      <button class="class-card" type="button" data-class="Standard Four">
+        <span class="class-icon">📕</span>
+        Standard Four
+      </button>
+
+      <button class="class-card" type="button" data-class="Standard Five">
+        <span class="class-icon">📔</span>
+        Standard Five
+      </button>
+
+      <button class="class-card" type="button" data-class="Standard Six">
+        <span class="class-icon">📖</span>
+        Standard Six
+      </button>
+
+    </div>
+
+    <div class="toolbar">
+      <h2 id="selectedClassTitle">All Textbooks</h2>
+
+      <div class="search-box">
+        <input
+          type="search"
+          id="bookSearch"
+          placeholder="Search by book title or subject..."
+          aria-label="Search textbooks by title or subject"
+        >
+      </div>
+    </div>
+
+    <p class="results-info" id="resultsInfo">
+      Textbooks will appear here as the library is organized.
+    </p>
+
+    <div class="books-grid" id="booksGrid"></div>
+
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">📚</div>
+
+      <h3>Textbook Library Coming Soon</h3>
+
+      <p>
+        The library is being organized. Textbooks will be added by class
+        and subject, making it easier to find and access the right book.
+        Please check back as new books become available.
+      </p>
+    </div>
+
+    <div class="information-box">
+      <strong>About This Library</strong>
+      This section is being prepared to organize New Syllabus textbooks
+      by class and subject. Book details and PDF links will be added
+      as the files are uploaded and organized.
+    </div>
+
+  </main>
+
+  <footer>
+    <p>
+      &copy; <span id="currentYear"></span>
+      <strong>Alawi T.O.D</strong> |
+      Teaching, Learning &amp; Educational Resources
+    </p>
+  </footer>
+
+  <script>
+    /*
+      TEXTBOOK RECORDS
+
+      When the PDFs have been uploaded to GitHub, we will add their
+      details here.
+
+      Example record:
+
+      {
+        title: "English Standard Two",
+        subject: "English",
+        className: "Standard Two",
+        year: "",
+        cover: "",
+        file: "textbooks/STANDARD TWO BOOKS/english-book.pdf"
+      }
+
+      Replace the example details with the actual book information
+      and exact PDF filename.
+    */
+
+    const books = [];
+
+    let selectedClass = "All Classes";
+
+    const classButtons = document.querySelectorAll(".class-card");
+    const searchInput = document.getElementById("bookSearch");
+    const booksGrid = document.getElementById("booksGrid");
+    const emptyState = document.getElementById("emptyState");
+    const resultsInfo = document.getElementById("resultsInfo");
+    const selectedClassTitle = document.getElementById("selectedClassTitle");
+
+    function renderBooks() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+
+      const filteredBooks = books.filter(function(book) {
+        const matchesClass =
+          selectedClass === "All Classes" ||
+          book.className === selectedClass;
+
+        const searchableText = (
+          book.title + " " +
+          book.subject + " " +
+          book.className
+        ).toLowerCase();
+
+        const matchesSearch = searchableText.includes(searchTerm);
+
+        return matchesClass && matchesSearch;
+      });
+
+      booksGrid.innerHTML = "";
+
+      selectedClassTitle.textContent =
+        selectedClass === "All Classes"
+          ? "All Textbooks"
+          : selectedClass + " Textbooks";
+
+      if (filteredBooks.length === 0) {
+        emptyState.style.display = "block";
+
+        if (books.length === 0) {
+          resultsInfo.textContent =
+            "The textbook collection is being prepared.";
+
+          emptyState.querySelector("h3").textContent =
+            "Textbook Library Coming Soon";
+
+          emptyState.querySelector("p").textContent =
+            "The library is being organized. Textbooks will be added by class and subject as the PDF files are uploaded.";
+        } else {
+          resultsInfo.textContent = "No matching textbooks found.";
+
+          emptyState.querySelector("h3").textContent =
+            "No Textbooks Found";
+
+          emptyState.querySelector("p").textContent =
+            "Try another search term or select a different class.";
+        }
+
+        return;
+      }
+
+      emptyState.style.display = "none";
+
+      resultsInfo.textContent =
+        filteredBooks.length +
+        (filteredBooks.length === 1
+          ? " textbook available."
+          : " textbooks available.");
+
+      filteredBooks.forEach(function(book) {
+        const card = document.createElement("article");
+        card.className = "book-card";
+
+        const cover = document.createElement("div");
+        cover.className = "book-cover";
+
+        if (book.cover) {
+          const image = document.createElement("img");
+          image.src = encodeURI(book.cover);
+          image.alt = book.title + " cover";
+          image.loading = "lazy";
+
+          image.onerror = function() {
+            cover.innerHTML =
+              '<div class="cover-placeholder">' +
+              '<span>📚</span><strong>TIE TEXTBOOK</strong></div>';
+          };
+
+          cover.appendChild(image);
+        } else {
+          cover.innerHTML =
+            '<div class="cover-placeholder">' +
+            '<span>📚</span><strong>TIE TEXTBOOK</strong></div>';
+        }
+
+        const details = document.createElement("div");
+        details.className = "book-details";
+
+        const subject = document.createElement("span");
+        subject.className = "book-subject";
+        subject.textContent = book.subject;
+
+        const title = document.createElement("h3");
+        title.textContent = book.title;
+
+        const meta = document.createElement("p");
+        meta.className = "book-meta";
+        meta.textContent =
+          book.className +
+          (book.year ? " • " + book.year : "");
+
+        const actions = document.createElement("div");
+        actions.className = "book-actions";
+
+        if (book.file) {
+          const openLink = document.createElement("a");
+          openLink.className = "book-button open-button";
+          openLink.href = encodeURI(book.file);
+          openLink.target = "_blank";
+          openLink.rel = "noopener noreferrer";
+          openLink.textContent = "Open Book";
+
+          const downloadLink = document.createElement("a");
+          downloadLink.className = "book-button download-button";
+          downloadLink.href = encodeURI(book.file);
+          downloadLink.download = "";
+          downloadLink.textContent = "Download PDF";
+
+          actions.appendChild(openLink);
+          actions.appendChild(downloadLink);
+        }
+
+        details.appendChild(subject);
+        details.appendChild(title);
+        details.appendChild(meta);
+        details.appendChild(actions);
+
+        card.appendChild(cover);
+        card.appendChild(details);
+
+        booksGrid.appendChild(card);
+      });
+    }
+
+    classButtons.forEach(function(button) {
+      button.addEventListener("click", function() {
+        classButtons.forEach(function(item) {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        selectedClass = button.dataset.class;
+
+        renderBooks();
+      });
+    });
+
+    searchInput.addEventListener("input", renderBooks);
+
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    renderBooks();
+  </script>
+
+</body>
+</html>
