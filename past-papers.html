@@ -463,8 +463,11 @@
         <span>Free downloads</span>
       </div>
 
-      <div class="exam-list" id="examList"></div>
-    </section>
+     <div class="exam-list" id="examList"></div>
+
+<div id="pagination" class="pagination"></div>
+</section>
+
 
     <div class="note">
       <strong>More resources coming soon!</strong>
@@ -582,7 +585,9 @@
     const classButtons = document.querySelectorAll(".class-button");
 
     document.getElementById("year").textContent = new Date().getFullYear();
-
+const examsPerPage = 6;
+let currentPage = 1;
+const pagination = document.getElementById("pagination");
     function renderExaminations() {
       const query = searchInput.value.trim().toLowerCase();
       const selectedClass = classFilter.value;
@@ -608,14 +613,24 @@
           : " examinations");
 
       examList.innerHTML = "";
+      pagination.innerHTML = "";
+      
+const totalPages = Math.ceil(filtered.length / examsPerPage);
+
+if (currentPage > totalPages) {
+currentPage = Math.max(1, totalPages);
+}
 
       if (filtered.length === 0) {
         examList.innerHTML =
           '<div class="empty-state">No examinations match your search. Try another class or subject.</div>';
         return;
       }
-
-      filtered.forEach(exam => {
+const startIndex = (currentPage - 1) * examsPerPage;
+const endIndex = startIndex + examsPerPage;
+const paginatedExaminations = filtered.slice(startIndex, endIndex);
+      
+      paginatedExaminations.forEach(exam => {
         const card = document.createElement("article");
         card.className = "exam-card";
 
@@ -653,15 +668,54 @@
         card.append(icon, title, meta, links);
         examList.appendChild(card);
       });
+            pagination.innerHTML = "";
+      
+const prevButton = document.createElement("button");
+prevButton.textContent = "← Previous";
+prevButton.disabled = currentPage === 1;
+prevButton.addEventListener("click", () => {
+  currentPage--;
+  renderExaminations();
+});
+pagination.appendChild(prevButton);
+     
+      for (let page = 1; page <= totalPages; page++) {
+        const button = document.createElement("button");
+        button.textContent = page;
+        button.className = page === currentPage ? "active" : "";
+        button.addEventListener("click", () => {
+          currentPage = page;
+          renderExaminations();
+        });
+        pagination.appendChild(button);
+      }
+       const nextButton = document.createElement("button");
+nextButton.textContent = "Next →";
+nextButton.disabled = currentPage === totalPages;
+nextButton.addEventListener("click", () => {
+  currentPage++;
+  renderExaminations();
+});
+pagination.appendChild(nextButton);
     }
 
-    searchInput.addEventListener("input", renderExaminations);
-    classFilter.addEventListener("change", renderExaminations);
-    subjectFilter.addEventListener("change", renderExaminations);
+    searchInput.addEventListener("input", () => {
+  currentPage = 1;
+  renderExaminations();
+});
+    classFilter.addEventListener("change", () => {
+  currentPage = 1;
+  renderExaminations();
+});
+    subjectFilter.addEventListener("change", () => {
+  currentPage = 1;
+  renderExaminations();
+});
 
     classButtons.forEach(button => {
       button.addEventListener("click", () => {
         classFilter.value = button.dataset.class;
+        currentPage = 1;
         renderExaminations();
         document.querySelector(".search-panel").scrollIntoView({
           behavior: "smooth",
