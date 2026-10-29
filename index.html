@@ -90,16 +90,23 @@
 <header>
   <div class="wrap nav">
     <a class="brand" href="#home">ALAWI <span>T.O.D.</span></a>
-    <div class="nav-tools"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">☾ Theme</button><button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">☰ Menu</button></div>
-    <nav id="mainNav" aria-label="Main navigation">
-  <a href="#about">About</a>
-  <a href="#teaching">Teaching</a>
-  <a href="#portfolio">Portfolio</a>
-  <a href="#skills">Skills</a>
-  <a href="#projects">Projects</a>
-  <a href="tie-textbooks.html">TIE Textbooks</a>
-  <a href="#contact">Contact</a>
+    <div class="nav-tools">
+  <button class="language-toggle" id="languageToggle" type="button" aria-label="Change language">🇹🇿 Kiswahili</button>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">☾ Theme</button>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">☰ Menu</button>
+</div>
+   ```html
+<nav id="mainNav" aria-label="Main navigation">
+  <a href="#about" data-en="About" data-sw="Kuhusu Mimi">About</a>
+  <a href="#teaching" data-en="Teaching" data-sw="Ufundishaji">Teaching</a>
+  <a href="#portfolio" data-en="Portfolio" data-sw="Kazi Zangu">Portfolio</a>
+  <a href="#skills" data-en="Skills" data-sw="Ujuzi">Skills</a>
+  <a href="#projects" data-en="Projects" data-sw="Miradi">Projects</a>
+  <a href="tie-textbooks.html" data-en="TIE Textbooks" data-sw="Vitabu vya TIE">TIE Textbooks</a>
+  <a href="#contact" data-en="Contact" data-sw="Mawasiliano">Contact</a>
 </nav>
+```
+
   </div>
 </header>
 <main>
@@ -241,6 +248,33 @@
     document.body.classList.toggle('dark');
   });
   document.getElementById('year').textContent = new Date().getFullYear();
+  ```javascript
+  const languageToggle = document.getElementById('languageToggle');
+
+  function setLanguage(language) {
+    document.documentElement.lang = language === 'sw' ? 'sw' : 'en';
+
+    document.querySelectorAll('[data-en][data-sw]').forEach(element => {
+      element.textContent = language === 'sw'
+        ? element.getAttribute('data-sw')
+        : element.getAttribute('data-en');
+    });
+
+    languageToggle.textContent = language === 'sw'
+      ? '🇬🇧 English'
+      : '🇹🇿 Kiswahili';
+
+    localStorage.setItem('preferredLanguage', language);
+  }
+
+  languageToggle.addEventListener('click', () => {
+    const currentLanguage = document.documentElement.lang;
+    setLanguage(currentLanguage === 'sw' ? 'en' : 'sw');
+  });
+
+  setLanguage(localStorage.getItem('preferredLanguage') || 'en');
+```
+
 </script>
 </body>
 </html>
