@@ -330,6 +330,63 @@
       border: 1px solid #c3e8d0;
     }
 
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 30px 0 8px;
+    }
+
+    .pagination button {
+      min-width: 48px;
+      min-height: 46px;
+      padding: 10px 16px;
+      border: 1px solid #198754;
+      border-radius: 9px;
+      background: #198754;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .pagination button:hover:not(:disabled) {
+      background: #12683b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(25, 135, 84, 0.22);
+    }
+
+    .pagination button:focus-visible {
+      outline: 3px solid rgba(25, 135, 84, 0.28);
+      outline-offset: 3px;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+    }
+
+    .pagination button.page-number {
+      background: #ffffff;
+      color: #12683b;
+    }
+
+    .pagination button.page-number.active {
+      background: #12683b;
+      color: #ffffff;
+    }
+
+    .pagination-status {
+      flex-basis: 100%;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
     .empty-state {
       background: var(--white);
       border: 1px dashed #b8c6d6;
@@ -570,6 +627,7 @@
     </p>
 
     <div class="books-grid" id="booksGrid"></div>
+    <nav class="pagination" id="booksPagination" aria-label="Textbook pages" hidden></nav>
 
     <div class="empty-state" id="emptyState">
       <div class="empty-icon">📚</div>
@@ -874,6 +932,8 @@
 ];
 
     let selectedClass = "All Classes";
+    let currentPage = 1;
+    const booksPerPage = 5;
 
     const classButtons = document.querySelectorAll(".class-card");
     const searchInput = document.getElementById("bookSearch");
@@ -881,6 +941,48 @@
     const emptyState = document.getElementById("emptyState");
     const resultsInfo = document.getElementById("resultsInfo");
     const selectedClassTitle = document.getElementById("selectedClassTitle");
+    const booksPagination = document.getElementById("booksPagination");
+
+    function renderPagination(totalBooks) {
+      const showPagination = selectedClass === "All Classes" && totalBooks > booksPerPage;
+      booksPagination.hidden = !showPagination;
+      booksPagination.innerHTML = "";
+
+      if (!showPagination) return;
+
+      const totalPages = Math.ceil(totalBooks / booksPerPage);
+
+      function addButton(label, page, options = {}) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = label;
+        if (options.className) button.className = options.className;
+        if (options.active) {
+          button.classList.add("active");
+          button.setAttribute("aria-current", "page");
+        }
+        button.disabled = options.disabled || false;
+        button.addEventListener("click", function() {
+          currentPage = page;
+          renderBooks();
+          booksGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        booksPagination.appendChild(button);
+      }
+
+      addButton("‹ Previous", Math.max(1, currentPage - 1), { disabled: currentPage === 1 });
+
+      for (let page = 1; page <= totalPages; page++) {
+        addButton(String(page), page, { className: "page-number", active: page === currentPage });
+      }
+
+      addButton("Next ›", Math.min(totalPages, currentPage + 1), { disabled: currentPage === totalPages });
+
+      const status = document.createElement("span");
+      status.className = "pagination-status";
+      status.textContent = "Page " + currentPage + " of " + totalPages;
+      booksPagination.appendChild(status);
+    }
 
     function renderBooks() {
       const searchTerm = searchInput.value.trim().toLowerCase();
@@ -903,12 +1005,20 @@
 
       booksGrid.innerHTML = "";
 
+      const totalPages = Math.max(1, Math.ceil(filteredBooks.length / booksPerPage));
+      currentPage = Math.min(currentPage, totalPages);
+      const pageBooks = selectedClass === "All Classes"
+        ? filteredBooks.slice((currentPage - 1) * booksPerPage, currentPage * booksPerPage)
+        : filteredBooks;
+
       selectedClassTitle.textContent =
         selectedClass === "All Classes"
           ? "All Textbooks"
           : selectedClass + " Textbooks";
 
       if (filteredBooks.length === 0) {
+        booksPagination.hidden = true;
+        booksPagination.innerHTML = "";
         emptyState.style.display = "block";
 
         if (books.length === 0) {
@@ -941,7 +1051,7 @@
           ? " textbook available."
           : " textbooks available.");
 
-      filteredBooks.forEach(function(book) {
+      pageBooks.forEach(function(book) {
         const card = document.createElement("article");
         card.className = "book-card";
 
@@ -1014,6 +1124,8 @@
 
         booksGrid.appendChild(card);
       });
+
+      renderPagination(filteredBooks.length);
     }
 
     classButtons.forEach(function(button) {
@@ -1024,12 +1136,16 @@
 
         button.classList.add("active");
         selectedClass = button.dataset.class;
+        currentPage = 1;
 
         renderBooks();
       });
     });
 
-    searchInput.addEventListener("input", renderBooks);
+    searchInput.addEventListener("input", function() {
+      currentPage = 1;
+      renderBooks();
+    });
 
     document.getElementById("currentYear").textContent =
       new Date().getFullYear();
