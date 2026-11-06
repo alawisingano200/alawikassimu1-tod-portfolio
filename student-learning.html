@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student Learning Corner - interactive learning resources for primary school learners.">
+  <meta name="theme-color" content="#142b3b">
+  <title>Student Learning Corner | Alawi T.O.D</title>
+  <style>
+    :root{--green:#16845b;--green-dark:#0d563d;--navy:#142b3b;--ink:#24313a;--muted:#65737d;--paper:#f5f8f6;--white:#fff;--line:#e2eae5}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(1100px,92%);margin:auto}
+    header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+    .nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+    .brand{font-weight:800;font-size:1.1rem;color:var(--navy)}
+    .brand span{color:var(--green)}
+    .back{color:var(--green-dark);font-weight:700;padding:9px 13px;border:1px solid var(--line);border-radius:9px}
+    .hero{padding:66px 0 58px;background:radial-gradient(circle at 88% 12%,#d9eee3 0,transparent 28%),linear-gradient(120deg,#e8f4ed,#f7faf8 60%,#e9f0f5)}
+    .eyebrow{display:inline-block;background:#d9eee2;color:var(--green-dark);font-weight:800;font-size:.78rem;padding:7px 12px;border-radius:30px;letter-spacing:.7px}
+    h1{font-size:clamp(2.2rem,5vw,3.7rem);line-height:1.08;letter-spacing:-1.5px;color:var(--navy);margin:17px 0 12px}
+    h1 span{color:var(--green)}
+    .hero p{max-width:700px;color:#53636d;font-size:1.05rem;margin:0}
+    section{padding:48px 0}
+    .section-head{margin-bottom:23px}
+    .section-head h2{color:var(--navy);font-size:clamp(1.5rem,3vw,2rem);margin:5px 0}
+    .section-head p{color:var(--muted);margin:0}
+    .kicker{font-size:.75rem;color:var(--green);font-weight:800;letter-spacing:1.3px;text-transform:uppercase}
+    .class-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .class-btn{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 12px;text-align:left;cursor:pointer;transition:.2s;color:var(--ink);min-height:105px}
+    .class-btn:hover,.class-btn.active{border-color:var(--green);box-shadow:0 8px 22px #173b2912;transform:translateY(-2px)}
+    .class-btn.active{background:#e8f5ee;outline:2px solid #b9dfc8}
+    .class-btn strong{display:block;color:var(--navy);font-size:1.05rem;margin:5px 0}
+    .class-btn small{color:var(--muted)}
+    .class-icon{font-size:1.35rem}
+    .selected-panel{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:25px}
+    .selected-top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:18px}
+    .selected-top h3{margin:0;color:var(--navy);font-size:1.35rem}
+    .badge{background:#e8f5ee;color:var(--green-dark);padding:6px 11px;border-radius:30px;font-size:.8rem;font-weight:700}
+    .subject-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .subject-card{border:1px solid var(--line);border-radius:13px;padding:17px;background:var(--paper);display:flex;align-items:center;gap:13px;min-height:82px}
+    .subject-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:12px;background:#e4f3e9;font-size:1.35rem;flex:0 0 43px}
+    .subject-card strong{display:block;color:var(--navy)}
+    .subject-card small{color:var(--muted)}
+    .notice{margin-top:18px;padding:13px 16px;background:#f0f6f2;border-left:4px solid var(--green);border-radius:8px;color:#496456;font-size:.92rem}
+    .features{background:#edf4ef}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+    .feature{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px}
+    .feature .symbol{font-size:1.5rem}
+    .feature h3{color:var(--navy);margin:8px 0 5px;font-size:1.05rem}
+    .feature p{color:var(--muted);font-size:.92rem;margin:0}
+    footer{padding:23px 0;color:var(--muted);font-size:.88rem}
+    .footer-row{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    body.dark{--ink:#e6edf0;--muted:#a9b7bf;--paper:#101a20;--line:#2a3a43;background:var(--paper);color:var(--ink)}
+    body.dark header,body.dark .selected-panel,body.dark .class-btn,body.dark .feature{background:#17252d;border-color:#2a3a43}
+    body.dark .hero{background:linear-gradient(120deg,#152d27,#101a20 60%,#172631)}
+    body.dark h1,body.dark .section-head h2,body.dark .class-btn strong,body.dark .selected-top h3,body.dark .subject-card strong,body.dark .feature h3,body.dark .brand{color:#eef6f1}
+    body.dark .features{background:#142128}
+    body.dark .subject-card{background:#192f3d;border-color:#304753}
+    body.dark .class-btn.active{background:#20382e}
+    body.dark .notice{background:#20382e;color:#d8f0e2}
+    body.dark .back{border-color:#304753;color:#8fe0b5}
+    @media(max-width:800px){.class-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.feature-grid{grid-template-columns:1fr}}
+    @media(max-width:520px){.nav{min-height:62px}.hero{padding:48px 0}.class-grid,.subject-grid{grid-template-columns:1fr}.selected-panel{padding:18px}section{padding:38px 0}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">ALAWI <span>T.O.D.</span></a>
+    <a class="back" href="index.html">← Back to Home</a>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">LEARN · PRACTISE · SUCCEED</span>
+      <h1>Student <span>Learning Corner</span></h1>
+      <p>Welcome to your learning space! Choose your class below to explore subjects and learning activities. New notes, exercises, quizzes and games will be added step by step.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Step 1 · Choose your class</span>
+        <h2>Where would you like to start?</h2>
+        <p>Select your class to see the learning areas available for you.</p>
+      </div>
+      <div class="class-grid" id="classGrid">
+        <button class="class-btn" data-class="Baby Class"><span class="class-icon">🧸</span><strong>Baby Class</strong><small>Early learning</small></button>
+        <button class="class-btn" data-class="Middle Class"><span class="class-icon">🧩</span><strong>Middle Class</strong><small>Early learning</small></button>
+        <button class="class-btn" data-class="Pre-Unit"><span class="class-icon">🎨</span><strong>Pre-Unit</strong><small>School readiness</small></button>
+        <button class="class-btn" data-class="Standard One"><span class="class-icon">1️⃣</span><strong>Standard One</strong><small>Primary level</small></button>
+        <button class="class-btn" data-class="Standard Two"><span class="class-icon">2️⃣</span><strong>Standard Two</strong><small>Primary level</small></button>
+        <button class="class-btn" data-class="Standard Three"><span class="class-icon">3️⃣</span><strong>Standard Three</strong><small>Primary level</small></button>
+        <button class="class-btn" data-class="Standard Four"><span class="class-icon">4️⃣</span><strong>Standard Four</strong><small>Primary level</small></button>
+        <button class="class-btn" data-class="Standard Five"><span class="class-icon">5️⃣</span><strong>Standard Five</strong><small>Primary level</small></button>
+        <button class="class-btn" data-class="Standard Six"><span class="class-icon">6️⃣</span><strong>Standard Six</strong><small>Primary level</small></button>
+        <button class="class-btn" data-class="Standard Seven"><span class="class-icon">7️⃣</span><strong>Standard Seven</strong><small>Primary level</small></button>
+      </div>
+
+      <div class="selected-panel" id="learningPanel" aria-live="polite">
+        <div class="selected-top">
+          <h3 id="selectedTitle">Select a class to begin</h3>
+          <span class="badge" id="selectedBadge">Your learning space</span>
+        </div>
+        <div class="subject-grid" id="subjectGrid">
+          <div class="subject-card"><span class="subject-icon">📖</span><div><strong>Learning subjects</strong><small>Choose a class above</small></div></div>
+          <div class="subject-card"><span class="subject-icon">✏️</span><div><strong>Practice activities</strong><small>Coming soon</small></div></div>
+          <div class="subject-card"><span class="subject-icon">🏆</span><div><strong>Quizzes and games</strong><small>Coming soon</small></div></div>
+        </div>
+        <div class="notice" id="learningNotice">The class and subject areas are ready. We will add the actual lessons, questions and activities in the next development steps.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Step 2 · Learn actively</span>
+        <h2>More ways to learn</h2>
+        <p>Our next updates will introduce interactive activities to help learners practise and check their understanding.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature"><span class="symbol">📝</span><h3>Online Quizzes</h3><p>Answer questions, submit your work and see your score.</p></article>
+        <article class="feature"><span class="symbol">🔤</span><h3>Spelling Challenge</h3><p>Practise spelling words and improve your writing skills.</p></article>
+        <article class="feature"><span class="symbol">🎮</span><h3>Learning Games</h3><p>Learn through matching, word puzzles and number activities.</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap footer-row"><span>© <span id="year"></span> Alawi T.O.D. Student Learning Corner.</span><span>Learn something new every day.</span></div>
+</footer>
+<script>
+  const subjectGrid = document.getElementById('subjectGrid');
+  const selectedTitle = document.getElementById('selectedTitle');
+  const selectedBadge = document.getElementById('selectedBadge');
+  const learningNotice = document.getElementById('learningNotice');
+
+  const subjectSets = {
+    early: [
+      ['🔤','Language and Communication','Letters, sounds and new words'],
+      ['🔢','Early Mathematics','Counting, numbers and shapes'],
+      ['🎨','Arts and Creativity','Drawing, colouring and modelling'],
+      ['🤸','Movement and Games','Songs, movement and simple games'],
+      ['🌱','Our Environment','People, animals and things around us']
+    ],
+    lower: [
+      ['📖','Learn English','Words, reading, grammar and writing'],
+      ['🔢','Mathematics','Numbers and basic calculations'],
+      ['🗣️','Kiswahili','Kusoma, kuandika na sarufi'],
+      ['🎨','Arts and Sports','Practical arts, games and exercises']
+    ],
+    upper: [
+      ['📖','Learn English','Reading, grammar and writing'],
+      ['🔢','Mathematics','Numbers, operations and problem solving'],
+      ['🗣️','Kiswahili','Kusoma, kuandika na sarufi'],
+      ['🔬','Science','Living things, health and the environment'],
+      ['🌍','Geography and Environment','Maps, directions and the environment'],
+      ['🎨','Arts and Sports','Arts, physical exercises and games']
+    ]
+  };
+
+  function chooseClass(className) {
+    document.querySelectorAll('.class-btn').forEach(button => {
+      button.classList.toggle('active', button.dataset.class === className);
+    });
+
+    let set = subjectSets.upper;
+    if (['Baby Class','Middle Class','Pre-Unit'].includes(className)) set = subjectSets.early;
+    else if (['Standard One','Standard Two'].includes(className)) set = subjectSets.lower;
+
+    selectedTitle.textContent = className + ' Learning Areas';
+    selectedBadge.textContent = className;
+    subjectGrid.innerHTML = set.map(item => `
+      <div class="subject-card">
+        <span class="subject-icon">${item[0]}</span>
+        <div><strong>${item[1]}</strong><small>${item[2]}</small></div>
+      </div>`).join('');
+    learningNotice.textContent = 'You selected ' + className + '. Lesson notes, exercises, quizzes and games for these learning areas will be added gradually.';
+  }
+
+  document.querySelectorAll('.class-btn').forEach(button => {
+    button.addEventListener('click', () => chooseClass(button.dataset.class));
+  });
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
