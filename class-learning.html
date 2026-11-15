@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Class learning areas and activities in Alawi T.O.D Student Learning Corner.">
+<meta name="theme-color" content="#142b3b">
+<title>Class Learning | Alawi T.O.D</title>
+<style>
+:root{--green:#16845b;--green-dark:#0d563d;--navy:#142b3b;--ink:#24313a;--muted:#65737d;--paper:#f5f8f6;--line:#e2eae5}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+a{text-decoration:none;color:inherit}.wrap{width:min(1100px,92%);margin:auto}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{font-weight:800;font-size:1.1rem;color:var(--navy)}.brand span{color:var(--green)}
+.nav-links{display:flex;gap:10px;flex-wrap:wrap}.nav-link{color:var(--green-dark);font-weight:700;padding:8px 12px;border:1px solid var(--line);border-radius:9px}
+.hero{padding:58px 0 48px;background:radial-gradient(circle at 88% 12%,#d9eee3 0,transparent 28%),linear-gradient(120deg,#e8f4ed,#f7faf8 60%,#e9f0f5)}
+.eyebrow{display:inline-block;background:#d9eee2;color:var(--green-dark);font-weight:800;font-size:.78rem;padding:7px 12px;border-radius:30px;letter-spacing:.7px}
+h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;color:var(--navy);margin:16px 0 10px}h1 span{color:var(--green)}
+.hero p{max-width:700px;color:#53636d;font-size:1.02rem;margin:0}
+section{padding:42px 0 55px}.section-head{margin-bottom:22px}.section-head h2{color:var(--navy);font-size:clamp(1.45rem,3vw,1.9rem);margin:5px 0}.section-head p{color:var(--muted);margin:0}
+.kicker{font-size:.75rem;color:var(--green);font-weight:800;letter-spacing:1.3px;text-transform:uppercase}
+.class-banner{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px 20px;margin-bottom:22px}
+.class-banner strong{color:var(--navy);font-size:1.2rem}.badge{background:#e8f5ee;color:var(--green-dark);padding:6px 11px;border-radius:30px;font-size:.8rem;font-weight:700}
+.learning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.learning-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px;min-height:190px;display:flex;flex-direction:column;align-items:flex-start;box-shadow:0 5px 18px #173b2908}
+.learning-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:13px;background:#e8f5ee;font-size:1.55rem}
+.learning-card h3{color:var(--navy);font-size:1.08rem;margin:12px 0 5px}.learning-card p{color:var(--muted);font-size:.92rem;margin:0 0 13px}
+.status{margin-top:auto;color:var(--green-dark);font-size:.8rem;font-weight:800;background:#edf6f0;border-radius:20px;padding:5px 10px}
+.notice{margin-top:22px;padding:13px 16px;background:#f0f6f2;border-left:4px solid var(--green);border-radius:8px;color:#496456;font-size:.92rem}
+footer{padding:23px 0;color:var(--muted);font-size:.88rem}.footer-row{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+body.dark{--ink:#e6edf0;--muted:#a9b7bf;--paper:#101a20;--line:#2a3a43;background:var(--paper);color:var(--ink)}
+body.dark header,body.dark .class-banner,body.dark .learning-card{background:#17252d;border-color:#2a3a43}
+body.dark .hero{background:linear-gradient(120deg,#152d27,#101a20 60%,#172631)}
+body.dark h1,body.dark .section-head h2,body.dark .class-banner strong,body.dark .learning-card h3,body.dark .brand{color:#eef6f1}
+body.dark .learning-icon,body.dark .badge,body.dark .status{background:#20382e;color:#d8f0e2}
+body.dark .notice{background:#20382e;color:#d8f0e2}body.dark .nav-link{border-color:#304753;color:#8fe0b5}
+@media(max-width:800px){.learning-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.nav{min-height:62px}.hero{padding:43px 0}.learning-grid{grid-template-columns:1fr}section{padding:34px 0}.learning-card{min-height:165px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<a class="brand" href="index.html">ALAWI <span>T.O.D.</span></a>
+<div class="nav-links"><a class="nav-link" href="student-learning.html">← Change Class</a><a class="nav-link" href="index.html">Home</a></div>
+</div></header>
+<main>
+<section class="hero"><div class="wrap">
+<span class="eyebrow">LEARN · PRACTISE · TEST · IMPROVE</span>
+<h1 id="pageTitle">Your <span>Learning Page</span></h1>
+<p>Welcome! Choose a learning area below. More lessons, activities and interactive exercises will be added step by step.</p>
+</div></section>
+<section><div class="wrap">
+<div class="section-head"><span class="kicker">Your selected class</span><h2>Explore your learning areas</h2>
+<p>Each learning area will have its own page, so the website stays clear and easy to use.</p></div>
+<div class="class-banner"><strong id="className">Loading your class...</strong><span class="badge">Student Learning Corner</span></div>
+<div class="learning-grid">
+<article class="learning-card"><span class="learning-icon">🇬🇧</span><h3>English Learning</h3><p>Vocabulary, grammar, spelling, sentence making, reading and fill in the blanks.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card"><span class="learning-icon">🔢</span><h3>Mathematics Corner</h3><p>Counting, operations, fractions, shapes and word problems.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card"><span class="learning-icon">🇹🇿</span><h3>Kiswahili Learning</h3><p>Sarufi, aina za maneno, umoja na wingi, ufahamu na msamiati.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card"><span class="learning-icon">🔬</span><h3>Science Corner</h3><p>Human body, plants, animals, environment, health and hygiene.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card"><span class="learning-icon">🌍</span><h3>General Knowledge</h3><p>Tanzania, African countries, geography, national symbols and general knowledge.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card"><span class="learning-icon">📝</span><h3>Online Quiz &amp; Examination</h3><p>Choose a subject and topic, answer questions and check your results.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card"><span class="learning-icon">🏆</span><h3>Spelling Challenge</h3><p>Practise writing words correctly and check your spelling.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card"><span class="learning-icon">🎮</span><h3>Learning Games</h3><p>Enjoy word matching, number matching, word scramble and other learning games.</p><span class="status">Coming in the next stage</span></article>
+</div>
+<div class="notice">We are building this learning platform step by step. The learning areas will become active as their lessons and activities are completed.</div>
+</div></section>
+</main>
+<footer><div class="wrap footer-row"><span>© <span id="year"></span> Alawi T.O.D. Student Learning Corner.</span><span>Learn something new every day.</span></div></footer>
+<script>
+const params=new URLSearchParams(window.location.search);
+const selectedClass=params.get('class');
+const allowedClasses=['Baby Class','Middle Class','Pre-Unit','Standard One','Standard Two','Standard Three','Standard Four','Standard Five','Standard Six','Standard Seven'];
+if(allowedClasses.includes(selectedClass)){
+  document.getElementById('className').textContent=selectedClass;
+  document.getElementById('pageTitle').innerHTML=selectedClass+' <span>Learning Page</span>';
+  document.title=selectedClass+' Learning | Alawi T.O.D';
+}else{
+  document.getElementById('className').textContent='No class selected';
+  document.getElementById('pageTitle').innerHTML='Choose Your <span>Class</span>';
+  document.querySelector('.notice').textContent='Please return to the Student Learning Corner and choose your class first.';
+}
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
