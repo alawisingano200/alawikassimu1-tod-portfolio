@@ -87,7 +87,7 @@
       <div class="section-head">
         <span class="kicker">Step 1 · Choose your class</span>
         <h2>Where would you like to start?</h2>
-        <p>Select your class to see the learning areas available for you.</p>
+        <p>Select your class to open its own learning page, where you can explore subjects and activities.</p>
       </div>
       <div class="class-grid" id="classGrid">
         <button class="class-btn" data-class="Baby Class"><span class="class-icon">🧸</span><strong>Baby Class</strong><small>Early learning</small></button>
@@ -102,17 +102,12 @@
         <button class="class-btn" data-class="Standard Seven"><span class="class-icon">7️⃣</span><strong>Standard Seven</strong><small>Primary level</small></button>
       </div>
 
-      <div class="selected-panel" id="learningPanel" aria-live="polite">
+      <div class="selected-panel" style="margin-top:26px">
         <div class="selected-top">
-          <h3 id="selectedTitle">Select a class to begin</h3>
-          <span class="badge" id="selectedBadge">Your learning space</span>
+          <h3>Choose your class to continue</h3>
+          <span class="badge">Your learning journey</span>
         </div>
-        <div class="subject-grid" id="subjectGrid">
-          <div class="subject-card"><span class="subject-icon">📖</span><div><strong>Learning subjects</strong><small>Choose a class above</small></div></div>
-          <div class="subject-card"><span class="subject-icon">✏️</span><div><strong>Practice activities</strong><small>Coming soon</small></div></div>
-          <div class="subject-card"><span class="subject-icon">🏆</span><div><strong>Quizzes and games</strong><small>Coming soon</small></div></div>
-        </div>
-        <div class="notice" id="learningNotice">The class and subject areas are ready. We will add the actual lessons, questions and activities in the next development steps.</div>
+        <p style="margin:0;color:var(--muted)">After selecting a class, you will move to a separate page showing the learning areas and activities for that class.</p>
       </div>
     </div>
   </section>
@@ -122,7 +117,7 @@
       <div class="section-head">
         <span class="kicker">Step 2 · Learn actively</span>
         <h2>More ways to learn</h2>
-        <p>Our next updates will introduce interactive activities to help learners practise and check their understanding.</p>
+        <p>Choose your class first. Its learning page will guide you to lessons, quizzes, spelling practice and educational games as they are developed.</p>
       </div>
       <div class="feature-grid">
         <article class="feature"><span class="symbol">📝</span><h3>Online Quizzes</h3><p>Answer questions, submit your work and see your score.</p></article>
@@ -136,57 +131,14 @@
   <div class="wrap footer-row"><span>© <span id="year"></span> Alawi T.O.D. Student Learning Corner.</span><span>Learn something new every day.</span></div>
 </footer>
 <script>
-  const subjectGrid = document.getElementById('subjectGrid');
-  const selectedTitle = document.getElementById('selectedTitle');
-  const selectedBadge = document.getElementById('selectedBadge');
-  const learningNotice = document.getElementById('learningNotice');
-
-  const subjectSets = {
-    early: [
-      ['🔤','Language and Communication','Letters, sounds and new words'],
-      ['🔢','Early Mathematics','Counting, numbers and shapes'],
-      ['🎨','Arts and Creativity','Drawing, colouring and modelling'],
-      ['🤸','Movement and Games','Songs, movement and simple games'],
-      ['🌱','Our Environment','People, animals and things around us']
-    ],
-    lower: [
-      ['📖','Learn English','Words, reading, grammar and writing'],
-      ['🔢','Mathematics','Numbers and basic calculations'],
-      ['🗣️','Kiswahili','Kusoma, kuandika na sarufi'],
-      ['🎨','Arts and Sports','Practical arts, games and exercises']
-    ],
-    upper: [
-      ['📖','Learn English','Reading, grammar and writing'],
-      ['🔢','Mathematics','Numbers, operations and problem solving'],
-      ['🗣️','Kiswahili','Kusoma, kuandika na sarufi'],
-      ['🔬','Science','Living things, health and the environment'],
-      ['🌍','Geography and Environment','Maps, directions and the environment'],
-      ['🎨','Arts and Sports','Arts, physical exercises and games']
-    ]
-  };
-
   function chooseClass(className) {
-    document.querySelectorAll('.class-btn').forEach(button => {
-      button.classList.toggle('active', button.dataset.class === className);
-    });
-
-    let set = subjectSets.upper;
-    if (['Baby Class','Middle Class','Pre-Unit'].includes(className)) set = subjectSets.early;
-    else if (['Standard One','Standard Two'].includes(className)) set = subjectSets.lower;
-
-    selectedTitle.textContent = className + ' Learning Areas';
-    selectedBadge.textContent = className;
-    subjectGrid.innerHTML = set.map(item => `
-      <div class="subject-card">
-        <span class="subject-icon">${item[0]}</span>
-        <div><strong>${item[1]}</strong><small>${item[2]}</small></div>
-      </div>`).join('');
-    learningNotice.textContent = 'You selected ' + className + '. Lesson notes, exercises, quizzes and games for these learning areas will be added gradually.';
+    window.location.href = 'class-learning.html?class=' + encodeURIComponent(className);
   }
 
   document.querySelectorAll('.class-btn').forEach(button => {
     button.addEventListener('click', () => chooseClass(button.dataset.class));
   });
+
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
