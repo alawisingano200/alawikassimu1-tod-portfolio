@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>English Learning - Standard Two | Alawi T.O.D</title>
+
+<style>
+:root {
+  --navy: #102b46;
+  --green: #16845b;
+  --light: #e8f5ee;
+  --white: #ffffff;
+  --text: #263746;
+  --shadow: 0 5px 18px rgba(0,0,0,0.09);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f8f6;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+header {
+  background: var(--navy);
+  color: white;
+  padding: 25px 15px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+header p {
+  font-size: 15px;
+}
+
+.topbar {
+  background: white;
+  padding: 12px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: var(--shadow);
+}
+
+.brand {
+  color: var(--navy);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 19px;
+}
+
+.back-btn {
+  background: var(--green);
+  color: white;
+  padding: 9px 15px;
+  border-radius: 7px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 25px auto;
+}
+
+.welcome {
+  background: var(--light);
+  padding: 22px;
+  border-left: 5px solid var(--green);
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.welcome h2 {
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  color: var(--navy);
+  margin: 30px 0 15px;
+  font-size: 23px;
+}
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 17px;
+}
+
+.learning-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--green);
+}
+
+.learning-card h3 {
+  color: var(--navy);
+  margin: 8px 0;
+}
+
+.icon {
+  font-size: 30px;
+}
+
+.learning-card p {
+  font-size: 14px;
+}
+
+.topic-box {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.topic-box h3 {
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.example {
+  background: var(--light);
+  padding: 12px;
+  border-radius: 7px;
+  margin-top: 10px;
+}
+
+.quiz-button {
+  display: inline-block;
+  background: var(--green);
+  color: white;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+footer {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+  padding: 18px;
+  margin-top: 40px;
+}
+
+@media(max-width:600px) {
+  header h1 {
+    font-size: 23px;
+  }
+
+  .container {
+    width: 94%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a class="brand" href="index.html">ALAWI T.O.D.</a>
+  <a class="back-btn" href="javascript:history.back()">← Back</a>
+</div>
+
+<header>
+  <h1>🇬🇧 English Learning</h1>
+  <p>Standard Two Learning Corner</p>
+  <p>Learn English, Practise and Improve!</p>
+</header>
+
+<main class="container">
+
+  <section class="welcome">
+    <h2>Welcome, Standard Two Learner!</h2>
+    <p>
+      Welcome to your English Learning Corner. Here you can learn
+      new words, read short stories, practise grammar and improve
+      your writing skills.
+    </p>
+  </section>
+
+  <h2 class="section-title">📚 Learning Areas</h2>
+
+  <div class="learning-grid">
+
+    <article class="learning-card">
+      <span class="icon">📖</span>
+      <h3>English Notes</h3>
+      <p>Learn different English topics with simple explanations and examples.</p>
+    </article>
+
+    <article class="learning-card">
+      <span class="icon">🗣️</span>
+      <h3>Vocabulary</h3>
+      <p>Learn new English words and their meanings.</p>
+    </article>
+
+    <article class="learning-card">
+      <span class="icon">✍️</span>
+      <h3>Grammar</h3>
+      <p>Learn how to use words correctly when speaking and writing.</p>
+    </article>
+
+    <article class="learning-card">
+      <span class="icon">📚</span>
+      <h3>Reading Practice</h3>
+      <p>Read short passages and answer simple questions.</p>
+    </article>
+
+    <article class="learning-card">
+      <span class="icon">📝</span>
+      <h3>Writing Practice</h3>
+      <p>Practise spelling, handwriting and making simple sentences.</p>
+    </article>
+
+    <article class="learning-card">
+      <span class="icon">🎯</span>
+      <h3>English Exercises</h3>
+      <p>Answer questions and practise what you have learned.</p>
+    </article>
+
+  </div>
+
+  <h2 class="section-title">📘 Sample English Lessons</h2>
+
+  <div class="topic-box">
+    <h3>1. Demonstratives</h3>
+    <p>
+      We use <strong>this, that, these</strong> and
+      <strong>those</strong> to point at people or things.
+    </p>
+
+    <div class="example">
+      <p>This is a book.</p>
+      <p>That is a tree.</p>
+      <p>These are pencils.</p>
+      <p>Those are birds.</p>
+    </div>
+  </div>
+
+  <div class="topic-box">
+    <h3>2. Prepositions of Place</h3>
+    <p>Prepositions tell us where something or someone is.</p>
+
+    <div class="example">
+      <p>The book is <strong>on</strong> the table.</p>
+      <p>The cat is <strong>under</strong> the chair.</p>
+      <p>The pen is <strong>in</strong> the bag.</p>
+    </div>
+  </div>
+
+  <div class="topic-box">
+    <h3>3. Has and Have</h3>
+    <p>
+      We use <strong>has</strong> with he, she and it.
+      We use <strong>have</strong> with I, you, we and they.
+    </p>
+
+    <div class="example">
+      <p>She has a bag.</p>
+      <p>He has a ball.</p>
+      <p>I have a book.</p>
+      <p>They have pencils.</p>
+    </div>
+  </div>
+
+  <div class="topic-box">
+    <h3>4. Singular and Plural</h3>
+    <p>
+      A singular noun names one person, animal or thing.
+      A plural noun names more than one.
+    </p>
+
+    <div class="example">
+      <p>Book – Books</p>
+      <p>Box – Boxes</p>
+      <p>Baby – Babies</p>
+      <p>Mango – Mangoes</p>
+    </div>
+  </div>
+
+  <div class="topic-box">
+    <h3>5. Punctuation Marks</h3>
+    <p>Punctuation marks help us write sentences correctly.</p>
+
+    <div class="example">
+      <p>Full stop (.) – I am a pupil.</p>
+      <p>Question mark (?) – What is your name?</p>
+      <p>Exclamation mark (!) – What a beautiful flower!</p>
+      <p>Comma (,) – I have a pen, a book and a bag.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">🏆 Test Your Knowledge</h2>
+
+  <div class="topic-box">
+    <p>Are you ready to test what you have learned?</p>
+    <p>Choose a subject and answer questions in the Online Quiz section.</p>
+
+    <a class="quiz-button" href="online-quiz-standard-two.html">
+      Start English Quiz →
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <p>Alawi T.O.D. | Student Learning Corner</p>
+  <p>Education is Power.</p>
+  <p>© <span id="year"></span> Alawi T.O.D   All rights reserved.</p>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
