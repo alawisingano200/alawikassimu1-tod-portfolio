@@ -60,7 +60,12 @@ body.dark .notice{background:#20382e;color:#d8f0e2}body.dark .nav-link{border-co
 <article class="learning-card"><span class="learning-icon">🇹🇿</span><h3>Kiswahili Learning</h3><p>Sarufi, aina za maneno, umoja na wingi, ufahamu na msamiati.</p><span class="status">Coming in the next stage</span></article>
 <article class="learning-card"><span class="learning-icon">🔬</span><h3>Science Corner</h3><p>Human body, plants, animals, environment, health and hygiene.</p><span class="status">Coming in the next stage</span></article>
 <article class="learning-card"><span class="learning-icon">🌍</span><h3>General Knowledge</h3><p>Tanzania, African countries, geography, national symbols and general knowledge.</p><span class="status">Coming in the next stage</span></article>
-<article class="learning-card"><span class="learning-icon">📝</span><h3>Online Quiz &amp; Examination</h3><p>Choose a subject and topic, answer questions and check your results.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card" id="quizCard">
+<span class="learning-icon">📝</span>
+<h3>Online Quiz &amp; Examination</h3>
+<p>Choose a subject and topic, answer questions and check your results.</p>
+<span class="status">Coming in the next stage</span>
+</article>
 <article class="learning-card"><span class="learning-icon">🏆</span><h3>Spelling Challenge</h3><p>Practise writing words correctly and check your spelling.</p><span class="status">Coming in the next stage</span></article>
 <article class="learning-card"><span class="learning-icon">🎮</span><h3>Learning Games</h3><p>Enjoy word matching, number matching, word scramble and other learning games.</p><span class="status">Coming in the next stage</span></article>
 </div>
@@ -80,6 +85,28 @@ if(allowedClasses.includes(selectedClass)){
   document.getElementById('className').textContent='No class selected';
   document.getElementById('pageTitle').innerHTML='Choose Your <span>Class</span>';
   document.querySelector('.notice').textContent='Please return to the Student Learning Corner and choose your class first.';
+}
+const quizCard = document.getElementById('quizCard');
+
+if (selectedClass === 'Standard Two' && quizCard) {
+  quizCard.style.cursor = 'pointer';
+  quizCard.querySelector('.status').textContent = 'Start Quiz';
+
+  quizCard.setAttribute('role', 'link');
+  quizCard.setAttribute('tabindex', '0');
+
+  function openQuiz() {
+    window.location.href = 'online-quiz-standard-two.html';
+  }
+
+  quizCard.addEventListener('click', openQuiz);
+
+  quizCard.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openQuiz();
+    }
+  });
 }
 document.getElementById('year').textContent=new Date().getFullYear();
 </script>
