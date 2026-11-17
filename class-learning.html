@@ -55,7 +55,12 @@ body.dark .notice{background:#20382e;color:#d8f0e2}body.dark .nav-link{border-co
 <p>Each learning area will have its own page, so the website stays clear and easy to use.</p></div>
 <div class="class-banner"><strong id="className">Loading your class...</strong><span class="badge">Student Learning Corner</span></div>
 <div class="learning-grid">
-<article class="learning-card"><span class="learning-icon">🇬🇧</span><h3>English Learning</h3><p>Vocabulary, grammar, spelling, sentence making, reading and fill in the blanks.</p><span class="status">Coming in the next stage</span></article>
+<article class="learning-card" id="englishCard">
+<span class="learning-icon">🇬🇧</span>
+<h3>English Learning</h3>
+<p>Vocabulary, grammar, spelling, sentence making, reading and fill in the blanks.</p>
+<span class="status">Coming in the next stage</span>
+</article>
 <article class="learning-card"><span class="learning-icon">🔢</span><h3>Mathematics Corner</h3><p>Counting, operations, fractions, shapes and word problems.</p><span class="status">Coming in the next stage</span></article>
 <article class="learning-card"><span class="learning-icon">🇹🇿</span><h3>Kiswahili Learning</h3><p>Sarufi, aina za maneno, umoja na wingi, ufahamu na msamiati.</p><span class="status">Coming in the next stage</span></article>
 <article class="learning-card"><span class="learning-icon">🔬</span><h3>Science Corner</h3><p>Human body, plants, animals, environment, health and hygiene.</p><span class="status">Coming in the next stage</span></article>
@@ -85,6 +90,28 @@ if(allowedClasses.includes(selectedClass)){
   document.getElementById('className').textContent='No class selected';
   document.getElementById('pageTitle').innerHTML='Choose Your <span>Class</span>';
   document.querySelector('.notice').textContent='Please return to the Student Learning Corner and choose your class first.';
+}
+const englishCard = document.getElementById('englishCard');
+
+if (selectedClass === 'Standard Two' && englishCard) {
+  englishCard.style.cursor = 'pointer';
+  englishCard.querySelector('.status').textContent = 'Start Learning';
+
+  englishCard.setAttribute('role', 'link');
+  englishCard.setAttribute('tabindex', '0');
+
+  function openEnglishLearning() {
+    window.location.href = 'english-learning-standard-two.html';
+  }
+
+  englishCard.addEventListener('click', openEnglishLearning);
+
+  englishCard.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openEnglishLearning();
+    }
+  });
 }
 const quizCard = document.getElementById('quizCard');
 
