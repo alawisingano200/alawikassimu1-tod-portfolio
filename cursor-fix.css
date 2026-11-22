@@ -1,10 +1,11 @@
-/* Default cursor for ordinary website content */
+/* Normal arrow cursor for the whole website */
+html,
 body,
 body * {
-    cursor: default;
+    cursor: default !important;
 }
 
-/* Text input areas */
+/* Text input fields */
 input,
 textarea,
 select,
@@ -12,14 +13,17 @@ select,
     cursor: text !important;
 }
 
-/* Clickable elements */
+/* Links and clickable elements */
 a,
+a *,
 button,
+button *,
 [role="button"],
+[role="button"] *,
 [onclick],
+[onclick] *,
 input[type="button"],
 input[type="submit"],
-input[type="reset"],
-label[for] {
+input[type="reset"] {
     cursor: pointer !important;
 }
