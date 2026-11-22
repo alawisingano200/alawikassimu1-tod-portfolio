@@ -1,0 +1,25 @@
+/* Default cursor for ordinary website content */
+body,
+body * {
+    cursor: default;
+}
+
+/* Text input areas */
+input,
+textarea,
+select,
+[contenteditable="true"] {
+    cursor: text !important;
+}
+
+/* Clickable elements */
+a,
+button,
+[role="button"],
+[onclick],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+label[for] {
+    cursor: pointer !important;
+}
