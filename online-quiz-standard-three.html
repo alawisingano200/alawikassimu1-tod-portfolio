@@ -1,1 +1,317 @@
-.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Quiz & Examination | Alawi T.O.D</title>
+<style>
+:root{--navy:#102b46;--green:#16845b;--light:#e8f5ee;--ink:#203040;--muted:#607080;--line:#dce5eb;--bg:#f4f8fb}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:var(--navy);color:white;padding:18px 16px}.top{max-width:1000px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-weight:800;font-size:19px}.brand span{color:#75d5a7}
+a.back{color:white;text-decoration:none;border:1px solid #ffffff70;border-radius:9px;padding:8px 12px;font-size:14px}
+main{max-width:900px;margin:28px auto;padding:0 15px 40px}.hero{text-align:center;margin-bottom:22px}.hero h1{color:var(--navy);margin:0 0 5px;font-size:clamp(25px,4vw,34px)}.hero p{color:var(--muted);margin:0}
+.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:22px;margin:18px 0;box-shadow:0 5px 18px #102b4610}h2{color:var(--navy);margin:0 0 14px;font-size:21px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}label.field{display:block;font-weight:700;margin-bottom:6px;font-size:14px}
+select{width:100%;padding:12px;border:1px solid #bdcbd5;border-radius:9px;background:white;color:var(--ink);font-size:15px}
+button{border:0;border-radius:9px;padding:12px 18px;font-weight:700;font-size:15px;cursor:pointer}.primary{background:var(--green);color:white}.secondary{background:var(--light);color:var(--green)}.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.note{background:var(--light);border-left:4px solid var(--green);padding:12px 14px;border-radius:8px;color:#24523e;font-size:14px}.hidden{display:none!important}
+.meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-weight:700}.timer{background:#fff5d9;color:#775400;padding:7px 12px;border-radius:9px}
+.progress{height:9px;background:#e8edf1;border-radius:20px;overflow:hidden;margin:15px 0}.progress span{display:block;height:100%;background:var(--green);width:0}
+.qtext{font-size:19px;font-weight:700;color:var(--navy);margin:18px 0}.option{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;margin:9px 0;cursor:pointer}.option:hover{background:#f6fbf8}.option input{margin-top:5px}
+.score{font-size:42px;font-weight:800;color:var(--green);text-align:center}.result-message{text-align:center;font-weight:700;font-size:18px}.review-item{border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}.correct{color:#137547;font-weight:700}.wrong{color:#b42318;font-weight:700}.small{font-size:13px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.panel{padding:17px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div class="brand">ALAWI <span>T.O.D.</span> | LEARNING</div><a class="back" href="class-learning.html">← Back to Class Learning</a></div></header>
+<main>
+<section class="hero"><h1>Online Quiz & Examination</h1><p>Learn, practise and check what you understand.</p></section>
+<section class="panel" id="setup">
+<h2>1. Choose Your Quiz</h2>
+<div class="grid">
+<div><label class="field" for="classSelect">Class</label><select id="classSelect"><option selected>Standard Three</option></select></div>
+<div><label class="field" for="subjectSelect">Subject</label><select id="subjectSelect">
+<option>English</option><option>Mathematics</option><option>Kiswahili</option><option>Science and Technology</option><option>Geography and Environment</option><option>General Knowledge</option>
+</select></div>
+<div><label class="field" for="topicSelect">Topic</label><select id="topicSelect"><option value="All Topics">All Topics</option></select></div>
+<div><label class="field" for="typeSelect">Quiz Type</label><select id="typeSelect"><option>Practice Quiz</option><option>Examination</option></select></div>
+<div><label class="field" for="countSelect">Number of Questions</label><select id="countSelect"><option value="10">10 Questions</option><option value="20">20 Questions</option><option value="30">30 Questions</option></select></div>
+<div><label class="field" for="durationSelect">Time Limit</label><select id="durationSelect"><option value="5">5 Minutes</option><option value="10">10 Minutes</option><option value="15">15 Minutes</option></select></div>
+</div>
+<div class="note" id="availabilityNote" style="margin-top:17px">Standard Three sample question bank is available for all six subjects. Choose All Topics to access up to 30 questions.</div>
+<div class="btnrow"><button class="primary" id="continueBtn">Continue</button></div>
+</section>
+<section class="panel hidden" id="instructions"><h2>2. Instructions</h2><ul><li>Read every question carefully.</li><li>Choose one answer for each question.</li><li>Use Previous and Next to move between questions.</li><li>When time is over, your answers will be submitted automatically.</li></ul><div class="note" id="summary"></div><div class="btnrow"><button class="primary" id="startBtn">Start Quiz</button><button class="secondary" id="changeBtn">Change Selection</button></div></section>
+<section class="panel hidden" id="quiz"><div class="meta"><span id="quizTitle"></span><span class="timer" id="timer">05:00</span></div><div class="progress"><span id="progressBar"></span></div><div class="meta"><span id="qNumber"></span><span id="answered">Answered: 0</span></div><div id="questionArea"></div><div class="btnrow"><button class="secondary" id="prevBtn">← Previous</button><button class="primary" id="nextBtn">Next →</button><button class="primary hidden" id="submitBtn">Submit Quiz</button></div></section>
+<section class="panel hidden" id="results"><h2>3. Your Results</h2><div class="score" id="score">0/10</div><div class="result-message" id="message"></div><div class="grid" style="margin-top:18px"><div class="note">Correct answers: <b id="correct"></b></div><div class="note">Wrong answers: <b id="wrong"></b></div><div class="note">Percentage: <b id="percent"></b></div><div class="note">Grade: <b id="grade"></b></div></div><div class="btnrow"><button class="primary" id="reviewBtn">Review Answers</button><button class="secondary" id="retryBtn">Try Again</button><button class="secondary" onclick="location.href='class-learning.html'">Back to Learning Areas</button></div><div id="review" class="hidden"><h2 style="margin-top:22px">Review Your Answers</h2><div id="reviewList"></div></div></section>
+</main><footer>Learning Today, Leading Tomorrow. | Alawi T.O.D</footer>
+<script>
+/* Each item: [topic, question, [A,B,C,D], correct answer index, explanation] */
+const bank = {
+"English": [
+["Vocabulary","Which word is the name of a fruit?",["Chair","Mango","School","Pencil"],1,"A mango is a fruit."],
+["Vocabulary","What is the opposite of big?",["Small","Tall","Long","Wide"],0,"Small is the opposite of big."],
+["Vocabulary","Which one is an animal?",["Table","Goat","Cup","Book"],1,"A goat is an animal."],
+["Vocabulary","Choose the correct spelling.",["Skool","Scool","School","Shcool"],2,"The correct spelling is school."],
+["Vocabulary","Which word means the same as happy?",["Glad","Angry","Sad","Tired"],0,"Glad means happy."],
+["Vocabulary","Which one is a colour?",["Blue","Bread","Bird","Bottle"],0,"Blue is a colour."],
+["Vocabulary","What is the opposite of hot?",["Warm","Cold","Dry","Bright"],1,"Cold is the opposite of hot."],
+["Vocabulary","Which word names a person?",["Teacher","Stone","Water","Desk"],0,"A teacher is a person."],
+["Vocabulary","Which one is a means of transport?",["Bus","Plate","Pencil","Spoon"],0,"A bus is used for transport."],
+["Vocabulary","Choose the correctly spelt word.",["Frend","Friend","Freind","Frind"],1,"Friend is the correct spelling."],
+["Grammar","She ___ a doll.",["have","has","are","am"],1,"Use has with she."],
+["Grammar","Choose the plural of book.",["bookes","books","bookies","book"],1,"Add s to make books."],
+["Grammar","Choose the correct article: ___ orange.",["A","An","Thee","Is"],1,"Use an before a vowel sound."],
+["Grammar","The ball is ___ the table. It is below the table.",["on","under","in","over"],1,"Under means below something."],
+["Grammar","___ am a pupil.",["He","She","I","They"],2,"Use I when speaking about yourself."],
+["Grammar","We ___ pupils.",["am","is","are","has"],2,"Use are with we."],
+["Grammar","The children ___ happy.",["is","am","are","has"],2,"Use are with children."],
+["Grammar","Choose the correct word: He ___ to school.",["go","goes","going","gone"],1,"Use goes with he in the simple present."],
+["Grammar","I have ___ apple.",["a","an","thee","are"],1,"Use an before a vowel sound."],
+["Grammar","Which pronoun can replace Asha?",["He","It","She","They"],2,"She can replace the name of a girl."],
+["Sentence Making","Which sentence is correct?",["I is a pupil.","I am a pupil.","I are a pupil.","I be pupil."],1,"The correct sentence is I am a pupil."],
+["Sentence Making","What punctuation mark ends a question?",["Full stop","Question mark","Comma","Hyphen"],1,"A question ends with a question mark."],
+["Sentence Making","Choose the sentence that begins correctly.",["my name is Ali.","My name is Ali.","my Name is Ali.","MY name is ali."],1,"A sentence begins with a capital letter."],
+["Sentence Making","Choose the correct sentence.",["They is playing.","They are playing.","They am playing.","They be playing."],1,"They are playing is correct."],
+["Sentence Making","Which sentence has a full stop?",["Where are you?","I like milk.","Stop!","Hello,"],1,"A statement can end with a full stop."],
+["Reading","Amina has two cats. How many cats does Amina have?",["One","Two","Three","Four"],1,"The sentence says Amina has two cats."],
+["Reading","The sun is hot. What is hot?",["The moon","The rain","The sun","The wind"],2,"The sentence says the sun is hot."],
+["Reading","Juma goes to school every day. Where does Juma go?",["Market","School","Hospital","Shop"],1,"Juma goes to school."],
+["Reading","Sara has a red bag. What colour is Sara's bag?",["Blue","Green","Red","Black"],2,"The bag is red."],
+["Reading","The dog is under the chair. Where is the dog?",["On the chair","Under the chair","In the bag","At school"],1,"The dog is under the chair."]
+],
+"Mathematics": [
+["Numbers","What number comes after 29?",["28","30","31","39"],1,"30 comes after 29."],
+["Numbers","What is the number name of 15?",["Fifty","Five","Fifteen","Fourteen"],2,"15 is fifteen."],
+["Numbers","Which number is the smallest?",["18","12","20","15"],1,"12 is the smallest number."],
+["Numbers","What is the place value of 4 in  forty-two (42)?",["4","2","40","400"],2,"The digit 4 is in the tens place, so its value is 40."],
+["Numbers","Which number is an even number?",["7","9","12","15"],2,"12 is divisible by 2."],
+["Numbers","Count: 5, 10, 15, ___.",["16","18","20","25"],2,"The pattern increases by 5."],
+["Numbers","How many tens are in 30?",["1","2","3","4"],2,"30 has three tens."],
+["Numbers","Which is the greatest number?",["24","42","14","32"],1,"42 is the greatest number."],
+["Numbers","What is 100 written in words?",["Ten","One hundred","One thousand","Twenty"],1,"100 is one hundred."],
+["Numbers","What number comes before 50?",["48","49","51","40"],1,"49 comes before 50."],
+["Addition","What is 7 + 5?",["10","11","12","13"],2,"7 + 5 = 12."],
+["Addition","What is 14 + 3?",["16","17","18","19"],1,"14 + 3 = 17."],
+["Addition","Add 20 and 10.",["20","25","30","40"],2,"20 + 10 = 30."],
+["Addition","There are 6 red balls and 4 blue balls. How many balls are there?",["8","9","10","11"],2,"6 + 4 = 10 balls."],
+["Addition","What is 9 + 9?",["16","17","18","19"],2,"9 + 9 = 18."],
+["Subtraction","What is 10 - 3?",["6","7","8","9"],1,"10 - 3 = 7."],
+["Subtraction","What is 18 - 5?",["12","13","14","15"],1,"18 - 5 = 13."],
+["Subtraction","Take away 10 from 25.",["10","15","20","35"],1,"25 - 10 = 15."],
+["Subtraction","A farmer has 12 eggs. He sells 4. How many remain?",["6","7","8","9"],2,"12 - 4 = 8 eggs."],
+["Subtraction","What is 20 - 0?",["0","10","20","2"],2,"Subtracting zero leaves 20."],
+["Shapes and Measurement","Which shape has three sides?",["Square","Triangle","Circle","Rectangle"],1,"A triangle has three sides."],
+["Shapes and Measurement","How many sides does a square have?",["3","4","5","6"],1,"A square has four sides."],
+["Shapes and Measurement","Which unit is suitable for measuring the length of a pencil?",["Kilogram","Centimetre","Litre","Hour"],1,"Length can be measured in centimetres."],
+["Shapes and Measurement","Which object is usually measured in litres?",["Water","A book","A desk","A pencil"],0,"Litres measure liquids."],
+["Shapes and Measurement","How many days are in one week?",["5","6","7","8"],2,"One week has seven days."],
+["Money and Time","How many  shillings are in two 500-shilling coins?",["500","750","1,000","1,500"],2,"500 + 500 = 1,000 shillings."],
+["Money and Time","Which instrument shows time?",["Ruler","Clock","Scale","Cup"],1,"A clock shows time."],
+["Money and Time","How many months are in one year?",["10","11","12","13"],2,"One year has twelve months."],
+["Money and Time","Which day comes after Monday?",["Sunday","Tuesday","Friday","Saturday"],1,"Tuesday comes after Monday."],
+["Money and Time","Half past three means:",["3:00","3:15","3:30","4:30"],2,"Half past three is 3:30."]
+],
+"Kiswahili": [
+["Msamiati","Neno lipi ni jina la mnyama?",["Meza","Mbuzi","Kalamu","Kikombe"],1,"Mbuzi ni jina la mnyama."],
+["Msamiati","Kinyume cha neno refu ni nini?",["Fupi","Kubwa","Zito","Pana"],0,"Kinyume cha refu ni fupi."],
+["Msamiati","Tunda lipi kati ya haya?",["Embe","Kiti","Daftari","Sahani"],0,"Embe ni tunda."],
+["Msamiati","Ni neno lipi linalotaja mtu?",["Mwalimu","Jiwe","Maji","Mti"],0,"Mwalimu ni mtu."],
+["Msamiati","Kinyume cha mchana ni nini?",["Asubuhi","Usiku","Jioni","Alfajiri"],1,"Kinyume cha mchana ni usiku."],
+["Msamiati","Ni kitu gani hutumika kuandika?",["Kalamu","Sahani","Kiatu","Kijiko"],0,"Kalamu hutumika kuandika."],
+["Msamiati","Neno lipi ni jina la rangi?",["Bluu","Mkate","Ndege","Maji"],0,"Bluu ni rangi."],
+["Msamiati","Wingi wa mtoto ni upi?",["Watoto","Mtoto","Vitoto","Umtoto"],0,"Wingi wa mtoto ni watoto."],
+["Msamiati","Ni kipi ni chombo cha usafiri?",["Basi","Kikombe","Kitabu","Meza"],0,"Basi ni chombo cha usafiri."],
+["Msamiati","Neno lipi lina maana ya furaha?",["Shangwe","Huzuni","Hasira","Woga"],0,"Shangwe huhusiana na furaha."],
+["Sarufi","Jaza nafasi: Mimi ___ mwanafunzi.",["ni","wa","la","ki"],0,"Sentensi sahihi ni Mimi ni mwanafunzi."],
+["Sarufi","Wingi wa kitabu ni upi?",["Vitabu","Makitabu","Kitabus","Ukitabu"],0,"Wingi wa kitabu ni vitabu."],
+["Sarufi","Jaza nafasi: Yeye ___ chakula.",["wanakula","anakula","ninakula","tun kula"],1,"Yeye anakula chakula."],
+["Sarufi","Neno lipi ni kiwakilishi?",["Mimi","Kula","Meza","Nzuri"],0,"Mimi ni kiwakilishi."],
+["Sarufi","Jaza nafasi: Sisi ___ shuleni.",["niko","yuko","tuko","uko"],2,"Sisi tuko shuleni."],
+["Sarufi","Wingi wa mtoto ni:",["Watoto","Mitoto","Vitoto","Matoto"],0,"Watoto ndiyo wingi wa mtoto."],
+["Sarufi","Neno lipi ni kitenzi?",["Kimbia","Mrefu","Meza","Maji"],0,"Kimbia ni tendo."],
+["Sarufi","Jaza nafasi: Asha ___ mpira.",["wanacheza","anacheza","ninacheza","tunacheza"],1,"Asha anacheza mpira."],
+["Sarufi","Alama gani hutumika mwishoni mwa swali?",["Nukta","Alama ya kuuliza","Mkato","Kistari"],1,"Swali huishia kwa alama ya kuuliza."],
+["Sarufi","Jina la mtu, mahali au kitu huitwaje?",["Nomino","Kitenzi","Kivumishi","Kielezi"],0,"Jina huitwa nomino."],
+["Sentensi","Chagua sentensi sahihi.",["Mimi anacheza.","Mimi ninacheza.","Mimi wanacheza.","Mimi tunacheza."],1,"Mimi ninacheza ni sentensi sahihi."],
+["Sentensi","Mwalimu Alawi anafundisha Kiingereza. Mwalimu Alawi anafundisha nini?",["Kiswahili","Hisabati","Kiingereza","Sayansi"],2,"Mwalimu Alawi anafundisha Kiingereza."],
+["Sentensi","Chagua sentensi yenye alama sahihi.",["Unaitwa nani.","Unaitwa nani?","Unaitwa nani,","Unaitwa nani!?"],1,"Swali huweza kuishia kwa alama ya kuuliza."],
+["Sentensi","Jaza nafasi: Baba ___ kazi.",["anafanya","wanafanya","tunafanya","nafanya"],0,"Baba anafanya kazi."],
+["Sentensi","Ni sentensi ipi ni amri?",["Funga mlango.","Jana nililala.","Nina kalamu.","Mvua inanyesha."],0,"Funga mlango ni sentensi ya amri."],
+["Ufahamu","Amina ana kalamu mbili. Amina ana kalamu ngapi?",["Moja","Mbili","Tatu","Nne"],1,"Habari inasema ana kalamu mbili."],
+["Ufahamu","Juma anakwenda sokoni. Juma anakwenda wapi?",["Shuleni","Sokoni","Nyumbani","Hospitalini"],1,"Juma anakwenda sokoni."],
+["Ufahamu","Paka anakunywa maziwa. Nani anakunywa maziwa?",["Mbwa","Paka","Ng'ombe","Mbuzi"],1,"Paka ndiye anayekunywa maziwa."],
+["Ufahamu","Maua ni mazuri. Kitu gani ni kizuri?",["Maji","Maua","Mawe","Viatu"],1,"Maua ni mazuri."],
+["Ufahamu","Baba ana watoto watatu. Ana watoto wangapi?",["Wawili","Watatu","Wanne","Watano"],1,"Baba ana watoto watatu."]
+],
+"Science and Technology": [
+["Living Things","Which one is a living thing?",["Stone","Goat","Cup","Chair"],1,"A goat is a living thing."],
+["Living Things","Which part of a plant absorbs water from the soil?",["Root","Flower","Fruit","Leaf"],0,"Roots absorb water from the soil."],
+["Living Things","Which part of a plant makes food?",["Root","Leaf","Flower","Seed"],1,"Leaves make food for the plant."],
+["Living Things","Which animal gives us milk?",["Cow","Lion","Snake","Crocodile"],0,"A cow gives us milk."],
+["Living Things","Which one is a domestic animal?",["Goat","Tiger","Fox","Wolf"],0,"A goat can be kept at home."],
+["Living Things","What do plants need to grow?",["Water","Plastic","Smoke","Stones only"],0,"Plants need water to grow."],
+["Living Things","Which body part helps us to see?",["Ear","Eye","Nose","Hand"],1,"We use our eyes to see."],
+["Living Things","Which body part helps us to hear?",["Eye","Ear","Leg","Mouth"],1,"We use our ears to hear."],
+["Living Things","Which food helps build the body?",["Beans","Sweets only","Soda","Salt"],0,"Beans contain nutrients that help the body grow."],
+["Living Things","Which animal lives in water?",["Fish","Goat","Chicken","Cat"],0,"Fish live in water."],
+["Health and Hygiene","What should you do before eating?",["Wash hands","Play in mud","Touch rubbish","Sleep"],0,"Washing hands helps prevent disease."],
+["Health and Hygiene","Which item is used to clean teeth?",["Toothbrush","Ruler","Spoon","Toy"],0,"A toothbrush cleans teeth."],
+["Health and Hygiene","Which water is safest for drinking?",["Treated water","Dirty water","Pond water","Flood water"],0,"Treated water is safer for drinking."],
+["Health and Hygiene","How often should we brush our teeth?",["Regularly, morning and evening","Once a month","Only on Sunday","Never"],0,"Brushing morning and evening helps keep teeth clean."],
+["Health and Hygiene","Where should rubbish be put?",["In a dustbin","On the road","In a river","In the classroom"],0,"Rubbish should be put in a dustbin."],
+["Health and Hygiene","Which habit keeps the body clean?",["Bathing","Wearing dirty clothes","Avoiding water","Eating soil"],0,"Bathing helps keep the body clean."],
+["Health and Hygiene","What should you do when you are sick?",["Tell an adult and seek help","Hide it","Take any medicine","Ignore it"],0,"Tell a trusted adult so you can get proper help."],
+["Health and Hygiene","Which one is a healthy food?",["Vegetables","Spoiled food","Dust","Plastic"],0,"Vegetables are part of a healthy diet."],
+["Health and Hygiene","Why do we cover food?",["To protect it from dirt and flies","To make it dirty","To cool the room","To change its colour"],0,"Covering food protects it from dirt and flies."],
+["Health and Hygiene","Which tool is used to cut fingernails?",["Nail cutter","Hammer","Spoon","Ruler"],0,"A nail cutter is used to trim fingernails."],
+["Materials and Energy","Which material is commonly used to make a window?",["Glass","Cotton","Paper","Wool"],0,"Windows are commonly made of glass."],
+["Materials and Energy","Which object can give us light at night?",["Lamp","Stone","Plate","Shoe"],0,"A lamp gives light."],
+["Materials and Energy","Which source gives us heat and light naturally?",["Sun","Chair","Book","Bottle"],0,"The sun gives heat and light."],
+["Materials and Energy","Which object is attracted by a magnet?",["Iron nail","Wooden stick","Plastic cup","Paper"],0,"A magnet attracts iron."],
+["Materials and Energy","Which material comes from trees?",["Paper","Glass","Iron","Plastic"],0,"Paper is commonly made from wood pulp."],
+["Safety","Which action is safe near electricity?",["Keep hands dry","Touch bare wires","Put water on sockets","Pull wires"],0,"Keep hands dry and avoid exposed wires."],
+["Safety","What should you do before crossing a road?",["Look both ways","Run without looking","Close your eyes","Play on the road"],0,"Look carefully in both directions before crossing."],
+["Safety","Which item helps protect the head when riding a bicycle?",["Helmet","Scarf","Sandal","Glove"],0,"A helmet helps protect the head."],
+["Safety","What should you do if you see broken glass?",["Tell an adult","Pick it with bare hands","Kick it","Hide it"],0,"Tell an adult and keep away from broken glass."],
+["Safety","Which place is safest for playing?",["A safe playground","Middle of the road","Near an open fire","Building site"],0,"A safe playground is made for play."]
+],
+"Geography and Environment": [
+["Our Environment","Which one is part of the natural environment?",["River","Plastic bottle","Desk","Cup"],0,"A river is part of the natural environment."],
+["Our Environment","Which one is a source of water?",["Lake","Chair","Road","Book"],0,"A lake is a source of water."],
+["Our Environment","What do we call land covered with many trees?",["Forest","Desert","Road","Market"],0,"A forest has many trees."],
+["Our Environment","Which one is a natural feature?",["Mountain","School building","Bridge","Shop"],0,"A mountain is a natural feature."],
+["Our Environment","Which one is a man-made feature?",["Road","River","Hill","Lake"],0,"A road is made by people."],
+["Our Environment","Where do fish mainly live?",["Water","Desert","Tree tops","Dry land"],0,"Fish live in water."],
+["Our Environment","Which one is a type of weather?",["Rainy","Chair","Market","Village"],0,"Rainy describes weather."],
+["Our Environment","What gives the Earth light during the day?",["Sun","Moon","Stars","Clouds"],0,"The sun gives us daylight."],
+["Our Environment","Which place has very little rainfall?",["Desert","Swamp","River bank","Lake"],0,"Deserts receive very little rainfall."],
+["Our Environment","Which direction does the sun rise from?",["East","West","North","South"],0,"The sun rises in the east."],
+["Weather and Land","What do we use to protect ourselves from rain?",["Umbrella","Sunglasses","Fan","Basket"],0,"An umbrella helps protect us from rain."],
+["Weather and Land","Which season is usually associated with heavy rainfall?",["Rainy season","Dry season","Winter everywhere","Harvest only"],0,"The rainy season has more rainfall."],
+["Weather and Land","What is a large area of high land called?",["Mountain","Valley","Plain","Beach"],0,"A mountain is high land."],
+["Weather and Land","What is low land between hills or mountains called?",["Valley","Peak","Desert","Island"],0,"A valley is low land between higher areas."],
+["Weather and Land","Which one can be seen in the sky and may bring rain?",["Cloud","Stone","Root","Shell"],0,"Clouds can bring rain."],
+["Weather and Land","Which instrument can show direction?",["Compass","Cup","Ruler","Clock"],0,"A compass shows direction."],
+["Weather and Land","Which direction is opposite to north?",["South","East","West","North-east"],0,"South is opposite to north."],
+["Weather and Land","What is a flat area of land called?",["Plain","Mountain","Cave","Cliff"],0,"A plain is a large flat area of land."],
+["Weather and Land","Which natural event includes thunder and lightning?",["Thunderstorm","Drought","Earthquake","Fog"],0,"A thunderstorm may have thunder and lightning."],
+["Weather and Land","What do we call moving air?",["Wind","Soil","Smoke","Dustbin"],0,"Moving air is called wind."],
+["Environmental Care","What should we do with rubbish?",["Put it in a bin","Throw it in a river","Leave it on the road","Burn it everywhere"],0,"Use a proper rubbish bin."],
+["Environmental Care","Which action helps protect trees?",["Planting trees","Cutting all trees","Burning forests","Breaking branches"],0,"Planting trees helps the environment."],
+["Environmental Care","Why should we keep water sources clean?",["To keep water safe","To make water dirty","To waste water","To block rivers"],0,"Clean water sources help people and animals."],
+["Environmental Care","Which action can cause soil erosion?",["Removing vegetation","Planting grass","Terracing","Planting trees"],0,"Removing vegetation can expose soil to erosion."],
+["Environmental Care","Which is a good way to save water?",["Close taps after use","Leave taps running","Break water pipes","Pour clean water away"],0,"Closing taps prevents water waste."],
+["Environmental Care","What should we do when a place is dirty?",["Clean it safely","Add more rubbish","Block the drains","Leave it dirty"],0,"Cleaning helps keep the environment healthy."],
+["Environmental Care","Which activity can make the air dirty?",["Burning rubbish","Planting trees","Walking","Growing flowers"],0,"Burning rubbish releases smoke."],
+["Environmental Care","Which item can be reused?",["A clean glass bottle","Used tissue","Spoiled food","Dirty water"],0,"A clean glass bottle can be reused."],
+["Environmental Care","Why do people plant trees around homes?",["For shade and a better environment","To block all roads","To create rubbish","To dry rivers"],0,"Trees provide shade and improve the environment."],
+["Environmental Care","Which place should be kept free from rubbish?",["All surroundings","Only the classroom","Only the road","Only the market"],0,"All surroundings should be kept clean."]
+],
+"General Knowledge": [
+["Home and Community","Who teaches pupils at school?",["Teacher","Driver","Farmer","Tailor"],0,"A teacher teaches pupils."],
+["Home and Community","Who treats sick people at a hospital?",["Doctor","Carpenter","Fisherman","Shopkeeper"],0,"A doctor treats sick people."],
+["Home and Community","Which person grows crops?",["Farmer","Pilot","Tailor","Teacher"],0,"A farmer grows crops."],
+["Home and Community","Where do pupils go to learn?",["School","Airport","Garage","Stadium only"],0,"Pupils go to school to learn."],
+["Home and Community","Which place is used to buy goods?",["Market","Classroom","River","Playground"],0,"People buy goods at a market."],
+["Home and Community","Who drives a bus?",["Driver","Doctor","Nurse","Farmer"],0,"A driver drives a bus."],
+["Home and Community","Which service helps put out fires?",["Fire and rescue service","Library","Post office","School"],0,"Fire and rescue workers help put out fires."],
+["Home and Community","Which person makes clothes?",["Tailor","Pilot","Doctor","Fisherman"],0,"A tailor makes or repairs clothes."],
+["Home and Community","What should children do when an adult gives a safe instruction?",["Listen carefully","Shout","Run away","Break things"],0,"Children should listen to safe instructions."],
+["Home and Community","Which place helps people borrow books?",["Library","Garage","Farm","Kitchen"],0,"A library keeps books for reading and borrowing."],
+["Tanzania","What is the capital city of Tanzania?",["Dodoma","Arusha","Mwanza","Tanga"],0,"Dodoma is the capital city of Tanzania."],
+["Tanzania","Which colours are on the Tanzanian national flag?",["Green, yellow, black and blue","Red and white only","Blue and white only","Green and red only"],0,"The flag has green, yellow, black and blue."],
+["Tanzania","What is the national language widely used in Tanzania?",["Kiswahili","French","Arabic","German"],0,"Kiswahili is Tanzania's national language."],
+["Tanzania","Which ocean borders Tanzania to the east?",["Indian Ocean","Atlantic Ocean","Pacific Ocean","Arctic Ocean"],0,"The Indian Ocean is to the east of Tanzania."],
+["Tanzania","Which mountain is the highest in Africa?",["Mount Kilimanjaro","Mount Meru","Mount Hanang","Mount Uluguru"],0,"Mount Kilimanjaro is Africa's highest mountain."],
+["Tanzania","Who supports the shield on Tanzania's coat of arms?",["A man and a woman","Two lions","Two elephants","Two birds"],0,"A man and a woman support the shield on Tanzania's coat of arms."],
+["Tanzania","Which city is a major port in Tanzania?",["Dar es Salaam","Dodoma","Singida","Njombe"],0,"Dar es Salaam is a major port city."],
+["Tanzania","What is the name of Tanzania's currency?",["Tanzanian shilling","Dollar","Euro","Pound"],0,"Tanzania uses the Tanzanian shilling."],
+["Tanzania","Which island group is part of Tanzania?",["Zanzibar","Madagascar","Seychelles","Mauritius"],0,"Zanzibar is part of the United Republic of Tanzania."],
+["Tanzania","What is the name of the largest lake in Africa by area?",["Lake Victoria","Lake Tanganyika","Lake Nyasa","Lake Rukwa"],0,"Lake Victoria is the largest African lake by area."],
+["Time and Culture","How many days are in a week?",["5","6","7","8"],2,"A week has seven days."],
+["Time and Culture","How many months are in a year?",["10","11","12","13"],2,"A year has twelve months."],
+["Time and Culture","Which celebration marks the beginning of a new year?",["New Year's Day","Labour Day","Union Day","School Day"],0,"New Year's Day marks the beginning of a new year."],
+["Time and Culture","Which instrument is commonly used to tell time?",["Clock","Ruler","Thermometer","Compass"],0,"A clock tells time."],
+["Time and Culture","Which activity is a traditional way of sharing culture?",["Traditional dance","Throwing rubbish","Breaking roads","Wasting water"],0,"Traditional dances help communities share culture."],
+["Time and Culture","What do we call a person who is 100 years old?",["Centenarian","Teenager","Infant","Toddler"],0,"A person who reaches 100 years is a centenarian."],
+["Time and Culture","Which meal is commonly eaten in the morning?",["Breakfast","Supper","Lunch","Midnight snack"],0,"Breakfast is the morning meal."],
+["Time and Culture","Which one is a musical instrument?",["Drum","Plate","Shoe","Book"],0,"A drum is a musical instrument."],
+["Time and Culture","What should we do when the national anthem is played at an official event?",["Show respect","Shout loudly","Turn away and laugh","Throw rubbish"],0,"People should show respect during the national anthem."],
+["Time and Culture","Which day comes after Friday?",["Saturday","Thursday","Monday","Wednesday"],0,"Saturday comes after Friday."]
+]
+};
+
+const topicsBySubject = {
+"English":["All Topics","Vocabulary","Grammar","Sentence Making","Reading"],
+"Mathematics":["All Topics","Numbers","Addition","Subtraction","Shapes and Measurement","Money and Time"],
+"Kiswahili":["All Topics","Msamiati","Sarufi","Sentensi","Ufahamu"],
+"Science and Technology":["All Topics","Living Things","Health and Hygiene","Materials and Energy","Safety"],
+"Geography and Environment":["All Topics","Our Environment","Weather and Land","Environmental Care"],
+"General Knowledge":["All Topics","Home and Community","Tanzania","Time and Culture"]
+};
+const $=id=>document.getElementById(id);
+let quiz=[],answers=[],current=0,remaining=0,timerId=null,finished=false;
+function show(id){["setup","instructions","quiz","results"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
+function updateTopics(){
+ const subject=$("subjectSelect").value, topics=topicsBySubject[subject];
+ $("topicSelect").innerHTML=topics.map(t=>`<option value="${t}">${t}</option>`).join("");
+ updateQuestionOptions();
+}
+function selectedPool(){
+ const subject=$("subjectSelect").value,topic=$("topicSelect").value;
+ return bank[subject].filter(q=>topic==="All Topics"||q[0]===topic);
+}
+function updateQuestionOptions(){
+ const available=selectedPool().length,select=$("countSelect");
+ [...select.options].forEach(o=>{o.disabled=+o.value>available});
+ if(+select.value>available){
+   const first=[...select.options].find(o=>!o.disabled);
+   if(first)select.value=first.value;
+ }
+ $("availabilityNote").textContent=`${$("subjectSelect").value}: ${available} questions available for "${$("topicSelect").value}". Choose All Topics to access all 30 questions.`;
+}
+$("subjectSelect").addEventListener("change",updateTopics);
+$("topicSelect").addEventListener("change",updateQuestionOptions);
+$("continueBtn").onclick=()=>{
+ const available=selectedPool().length,n=+$("countSelect").value;
+ if(n>available){alert(`Only ${available} questions are available for this topic. Choose All Topics or a smaller number.`);return}
+ $("summary").textContent=`Class: Standard Two | Subject: ${$("subjectSelect").value} | Topic: ${$("topicSelect").value} | Type: ${$("typeSelect").value} | Questions: ${n} | Time: ${$("durationSelect").value} minutes.`;
+ show("instructions");
+};
+$("changeBtn").onclick=()=>show("setup");
+$("startBtn").onclick=()=>{
+ quiz=selectedPool().slice().sort(()=>Math.random()-.5).slice(0,+$("countSelect").value);
+ answers=Array(quiz.length).fill(null);current=0;finished=false;
+ remaining=+$("durationSelect").value*60;
+ $("quizTitle").textContent=`Standard Two • ${$("subjectSelect").value}`;
+ show("quiz");render();clock();clearInterval(timerId);
+ timerId=setInterval(()=>{remaining--;clock();if(remaining<=0)finish()},1000);
+};
+function clock(){let m=Math.floor(remaining/60),s=remaining%60;$("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")}
+function render(){
+ let q=quiz[current];$("qNumber").textContent=`Question ${current+1} of ${quiz.length}`;
+ $("answered").textContent=`Answered: ${answers.filter(x=>x!==null).length}`;
+ $("progressBar").style.width=((current+1)/quiz.length*100)+"%";
+ $("questionArea").innerHTML=`<div class="qtext">${current+1}. ${q[1]}</div>`+q[2].map((v,i)=>`<label class="option"><input type="radio" name="ans" value="${i}" ${answers[current]===i?"checked":""}><span><b>${"ABCD"[i]}.</b> ${v}</span></label>`).join("");
+ document.querySelectorAll('input[name="ans"]').forEach(el=>el.onchange=e=>{answers[current]=+e.target.value;$("answered").textContent=`Answered: ${answers.filter(x=>x!==null).length}`});
+ $("prevBtn").disabled=current===0;$("nextBtn").classList.toggle("hidden",current===quiz.length-1);$("submitBtn").classList.toggle("hidden",current!==quiz.length-1);
+}
+$("prevBtn").onclick=()=>{if(current>0){current--;render()}};
+$("nextBtn").onclick=()=>{if(current<quiz.length-1){current++;render()}};
+$("submitBtn").onclick=()=>{if(confirm("Submit your quiz now?"))finish()};
+function finish(){
+ if(finished)return;finished=true;clearInterval(timerId);
+ let right=quiz.reduce((n,q,i)=>n+(answers[i]===q[3]?1:0),0),total=quiz.length,p=Math.round(right/total*100);
+ $("score").textContent=`${right}/${total}`;$("correct").textContent=right;$("wrong").textContent=total-right;
+ $("percent").textContent=p+"%";$("grade").textContent=p>=80?"A":p>=60?"B":p>=40?"C":"Needs more practice";
+ $("message").textContent=p>=80?"Excellent work! Keep it up.":p>=60?"Good work! Keep practising.":p>=40?"You are improving. Practise more.":"Keep learning. You can do better!";
+ $("reviewList").innerHTML=quiz.map((q,i)=>{let ok=answers[i]===q[3];return `<div class="review-item"><b>${i+1}. ${q[1]}</b><p class="${ok?"correct":"wrong"}">${ok?"Correct":"Not correct"} — Your answer: ${answers[i]===null?"Not answered":q[2][answers[i]]}</p><p class="correct">Correct answer: ${q[2][q[3]]}</p><p class="small">${q[4]}</p></div>`}).join("");
+ $("review").classList.add("hidden");show("results");
+}
+$("reviewBtn").onclick=()=>$("review").classList.toggle("hidden");
+$("retryBtn").onclick=()=>{clearInterval(timerId);show("setup")};
+updateTopics();
+</script>
+</body></html>
