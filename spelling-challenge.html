@@ -760,7 +760,22 @@ function startChallenge(level) {
     showQuestion();
 
 }
+/* PRELOAD NEXT IMAGE */
 
+function preloadNextImage() {
+
+    const nextIndex = currentQuestion + 1;
+
+    if (nextIndex < questions.length) {
+
+        const nextWord = questions[nextIndex];
+
+        const nextImage = new Image();
+
+        nextImage.src = "images/spelling/" + nextWord.toLowerCase() + ".jpg";
+
+    }
+}
 /* SHOW QUESTION */
 
 function showQuestion() {
@@ -816,7 +831,7 @@ function showQuestion() {
     document.getElementById("nextButton").classList.add("hidden");
 
     startTimer();
-
+    preloadNextImage();
 }
 
 /* SPEAK WORD */
