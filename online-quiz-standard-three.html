@@ -34,7 +34,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 <div><label class="field" for="subjectSelect">Subject</label><select id="subjectSelect">
 <option>English</option><option>Mathematics</option><option>Kiswahili</option><option>Science and Technology</option><option>Geography and Environment</option><option>General Knowledge</option>
 </select></div>
-<div><label class="field" for="topicSelect">Topic</label><select id="topicSelect"><option value="All Topics">All Topics</option></select></div>
+<div><label class="field" for="topicSelect">Topic</label><select id="topicSelect"><option value="" selected disabled>Choose a topic</option></select></div>
 <div><label class="field" for="typeSelect">Quiz Type</label><select id="typeSelect"><option>Practice Quiz</option><option>Examination</option></select></div>
 <div><label class="field" for="countSelect">Number of Questions</label><select id="countSelect"><option value="10">10 Questions</option><option value="20">20 Questions</option><option value="30">30 Questions</option></select></div>
 <div><label class="field" for="durationSelect">Time Limit</label><select id="durationSelect"><option value="5">5 Minutes</option><option value="10">10 Minutes</option><option value="15">15 Minutes</option></select></div>
@@ -50,36 +50,143 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 /* Each item: [topic, question, [A,B,C,D], correct answer index, explanation] */
 const bank = {
 "English": [
-["Vocabulary","Which word is the name of a fruit?",["Chair","Mango","School","Pencil"],1,"A mango is a fruit."],
-["Vocabulary","What is the opposite of big?",["Small","Tall","Long","Wide"],0,"Small is the opposite of big."],
-["Vocabulary","Which one is an animal?",["Table","Goat","Cup","Book"],1,"A goat is an animal."],
-["Vocabulary","Choose the correct spelling.",["Skool","Scool","School","Shcool"],2,"The correct spelling is school."],
-["Vocabulary","Which word means the same as happy?",["Glad","Angry","Sad","Tired"],0,"Glad means happy."],
-["Vocabulary","Which one is a colour?",["Blue","Bread","Bird","Bottle"],0,"Blue is a colour."],
-["Vocabulary","What is the opposite of hot?",["Warm","Cold","Dry","Bright"],1,"Cold is the opposite of hot."],
-["Vocabulary","Which word names a person?",["Teacher","Stone","Water","Desk"],0,"A teacher is a person."],
-["Vocabulary","Which one is a means of transport?",["Bus","Plate","Pencil","Spoon"],0,"A bus is used for transport."],
-["Vocabulary","Choose the correctly spelt word.",["Frend","Friend","Freind","Frind"],1,"Friend is the correct spelling."],
-["Grammar","She ___ a doll.",["have","has","are","am"],1,"Use has with she."],
-["Grammar","Choose the plural of book.",["bookes","books","bookies","book"],1,"Add s to make books."],
-["Grammar","Choose the correct article: ___ orange.",["A","An","Thee","Is"],1,"Use an before a vowel sound."],
-["Grammar","The ball is ___ the table. It is below the table.",["on","under","in","over"],1,"Under means below something."],
-["Grammar","___ am a pupil.",["He","She","I","They"],2,"Use I when speaking about yourself."],
-["Grammar","We ___ pupils.",["am","is","are","has"],2,"Use are with we."],
-["Grammar","The children ___ happy.",["is","am","are","has"],2,"Use are with children."],
-["Grammar","Choose the correct word: He ___ to school.",["go","goes","going","gone"],1,"Use goes with he in the simple present."],
-["Grammar","I have ___ apple.",["a","an","thee","are"],1,"Use an before a vowel sound."],
-["Grammar","Which pronoun can replace Asha?",["He","It","She","They"],2,"She can replace the name of a girl."],
-["Sentence Making","Which sentence is correct?",["I is a pupil.","I am a pupil.","I are a pupil.","I be pupil."],1,"The correct sentence is I am a pupil."],
-["Sentence Making","What punctuation mark ends a question?",["Full stop","Question mark","Comma","Hyphen"],1,"A question ends with a question mark."],
-["Sentence Making","Choose the sentence that begins correctly.",["my name is Ali.","My name is Ali.","my Name is Ali.","MY name is ali."],1,"A sentence begins with a capital letter."],
-["Sentence Making","Choose the correct sentence.",["They is playing.","They are playing.","They am playing.","They be playing."],1,"They are playing is correct."],
-["Sentence Making","Which sentence has a full stop?",["Where are you?","I like milk.","Stop!","Hello,"],1,"A statement can end with a full stop."],
-["Reading","Amina has two cats. How many cats does Amina have?",["One","Two","Three","Four"],1,"The sentence says Amina has two cats."],
-["Reading","The sun is hot. What is hot?",["The moon","The rain","The sun","The wind"],2,"The sentence says the sun is hot."],
-["Reading","Juma goes to school every day. Where does Juma go?",["Market","School","Hospital","Shop"],1,"Juma goes to school."],
-["Reading","Sara has a red bag. What colour is Sara's bag?",["Blue","Green","Red","Black"],2,"The bag is red."],
-["Reading","The dog is under the chair. Where is the dog?",["On the chair","Under the chair","In the bag","At school"],1,"The dog is under the chair."]
+/* UNIT 2: USING PERSONAL PRONOUNS */
+
+["Using Personal Pronouns","Which pronoun can replace the name Amina?",["He","She","It","They"],1,"She replaces the name of a girl."],
+
+["Using Personal Pronouns","Choose the correct pronoun: ___ am a pupil.",["He","I","She","They"],1,"I is used when speaking about yourself."],
+
+["Using Personal Pronouns","Which pronoun can replace Juma?",["She","It","He","We"],2,"He replaces the name of a boy."],
+
+["Using Personal Pronouns","Choose the correct pronoun: The dog is hungry. ___ needs food.",["He","She","It","We"],2,"It is used for an animal when its sex is not specified."],
+
+["Using Personal Pronouns","Choose the correct pronoun: My friends and I are pupils. ___ go to school.",["They","We","He","She"],1,"We refers to the speaker and other people."],
+
+["Using Personal Pronouns","Which pronoun can replace the names Juma and Asha?",["He","She","It","They"],3,"They replaces two or more people."],
+
+["Using Personal Pronouns","Choose the correct pronoun: ___ are my teacher.",["You","It","He","She"],0,"You is used when speaking to someone."],
+
+["Using Personal Pronouns","Choose the correct pronoun: My mother is cooking. ___ is in the kitchen.",["He","It","She","They"],2,"She refers to a female person."],
+
+["Using Personal Pronouns","Choose the correct pronoun: The boys are playing. ___ are happy.",["He","She","It","They"],3,"They refers to more than one person."],
+
+["Using Personal Pronouns","Which pronoun can replace the word book?",["He","She","It","We"],2,"It can replace the name of a thing."],
+
+
+/* UNIT 3: EXPRESSING POSSESSION */
+
+["Expressing Possession","Choose the correct word: I ___ a new bag.",["has","have","having","had"],1,"Have is used with I."],
+
+["Expressing Possession","Choose the correct word: She ___ a beautiful dress.",["have","has","having","are"],1,"Has is used with she."],
+
+["Expressing Possession","Choose the correct word: They ___ three books.",["has","is","have","am"],2,"Have is used with they."],
+
+["Expressing Possession","Choose the correct word: He ___ a bicycle.",["have","has","are","having"],1,"Has is used with he."],
+
+["Expressing Possession","Choose the correct word: We ___ a big classroom.",["has","have","is","am"],1,"Have is used with we."],
+
+["Expressing Possession","Which sentence is correct?",["She have a pen.","She has a pen.","She having a pen.","She are a pen."],1,"She has a pen is grammatically correct."],
+
+["Expressing Possession","Choose the correct word: The teacher ___ a book.",["have","has","are","am"],1,"Has is used with a singular subject."],
+
+["Expressing Possession","Which sentence shows that a girl does not possess a bag?",["She has a bag.","She have a bag.","She does not have a bag.","She having a bag."],2,"Does not have expresses lack of possession."],
+
+["Expressing Possession","Choose the correct word: My parents ___ a house.",["has","have","is","am"],1,"Have is used with a plural subject."],
+
+["Expressing Possession","Choose the correct sentence.",["The cat have a tail.","The cat has a tail.","The cat are a tail.","The cat having a tail."],1,"Has is used with the singular subject the cat."],
+
+
+/* UNIT 4: DESCRIBING ROUTINES */
+
+["Describing Routines","What do you do every morning?",["I wake up.","I am sleeping now.","I slept yesterday.","I will sleep tomorrow."],0,"A routine is an activity done regularly."],
+
+["Describing Routines","Choose the correct sentence: Juma ___ to school every day.",["go","goes","going","gone"],1,"Goes is used with Juma in the simple present tense."],
+
+["Describing Routines","Asha ___ her teeth every morning.",["brush","brushes","brushing","brushed"],1,"Brushes is used with a singular subject."],
+
+["Describing Routines","Which activity is commonly done before going to bed?",["Waking up","Sleeping","Going to school","Eating breakfast"],1,"Sleeping is commonly done before going to bed."],
+
+["Describing Routines","Choose the correct sentence.",["I eats breakfast every morning.","I eat breakfast every morning.","I eating breakfast every morning.","I eaten breakfast every morning."],1,"Eat is used with I in the simple present tense."],
+
+["Describing Routines","What do pupils usually do at school?",["They study.","They sleep all day.","They cook every lesson.","They swim in class."],0,"Pupils study at school."],
+
+["Describing Routines","My father ___ to work every morning.",["go","goes","going","gone"],1,"Goes agrees with the singular subject my father."],
+
+["Describing Routines","Which word shows that an activity happens regularly?",["Yesterday","Every day","Tomorrow","Last week"],1,"Every day shows a regular routine."],
+
+["Describing Routines","We ___ football every Saturday.",["plays","playing","play","played"],2,"Play is used with we."],
+
+["Describing Routines","What do you do after waking up?",["I brush my teeth.","I brushed my teeth yesterday.","I will sleep tomorrow.","I am slept."],0,"Brushing teeth can be part of a daily routine."],
+
+
+/* UNIT 5: DESCRIBING ONGOING ACTIVITIES */
+
+["Describing Ongoing Activities","Choose the correct sentence: A boy is ___ a book now.",["read","reads","reading","readed"],2,"Reading describes an activity happening now."],
+
+["Describing Ongoing Activities","The girls are ___ a song.",["sing","sings","singing","sang"],2,"Singing is the -ing form of sing."],
+
+["Describing Ongoing Activities","Mother is ___ the floor.",["sweep","sweeps","sweeping","swept"],2,"Sweeping describes an ongoing activity."],
+
+["Describing Ongoing Activities","Choose the correct word: The teacher is ___ on the board.",["write","writes","writing","wrote"],2,"Writing is the -ing form of write."],
+
+["Describing Ongoing Activities","The children are ___ football.",["play","plays","playing","played"],2,"Playing describes an activity happening now."],
+
+["Describing Ongoing Activities","Choose the correct sentence.",["He are running.","He is running.","He am running.","He running."],1,"He is running is grammatically correct."],
+
+["Describing Ongoing Activities","The baby is ___.",["cry","cries","crying","cried"],2,"Crying describes what the baby is doing now."],
+
+["Describing Ongoing Activities","Choose the correct word: They are ___ the classroom.",["clean","cleans","cleaning","cleaned"],2,"Cleaning is the -ing form of clean."],
+
+["Describing Ongoing Activities","Which sentence describes an activity happening now?",["She walks every day.","She is walking now.","She walked yesterday.","She will walk tomorrow."],1,"Is walking describes an ongoing activity."],
+
+["Describing Ongoing Activities","Choose the correct sentence.",["We is learning English.","We am learning English.","We are learning English.","We learning English."],2,"We are learning English is grammatically correct."],
+
+
+/* UNIT 6: CONNECTING IDEAS USING AND AND BUT */
+
+["Connecting Ideas Using 'And' and 'But'","Choose the correct word: I like English ___ Kiswahili.",["but","and","or","because"],1,"And joins similar ideas."],
+
+["Connecting Ideas Using 'And' and 'But'","Choose the correct word: Juma is poor ___ he is happy.",["and","but","or","so"],1,"But joins contrasting ideas."],
+
+["Connecting Ideas Using 'And' and 'But'","Join the sentences: I have a pen. I have a book.",["I have a pen but a book.","I have a pen and a book.","I have a pen or a book.","I have a pen because a book."],1,"And joins the two things."],
+
+["Connecting Ideas Using 'And' and 'But'","Choose the correct word: Asha is young ___ clever.",["but","and","because","or"],1,"And connects two similar descriptions."],
+
+["Connecting Ideas Using 'And' and 'But'","Choose the correct word: The bag is small ___ it is heavy.",["and","but","or","so"],1,"But connects contrasting ideas."],
+
+["Connecting Ideas Using 'And' and 'But'","Which sentence uses 'and' correctly?",["I like rice and beans.","I like rice but beans.","I like rice because beans.","I like rice or beans and."],0,"And joins rice and beans."],
+
+["Connecting Ideas Using 'And' and 'But'","Choose the correct word: He is sick ___ he goes to school.",["and","but","or","because"],1,"But shows contrast between the two ideas."],
+
+["Connecting Ideas Using 'And' and 'But'","Complete the sentence: My father and my mother ___ at home.",["is","am","are","has"],2,"Are agrees with the compound subject."],
+
+["Connecting Ideas Using 'And' and 'But'","Choose the correct word: The sun is hot ___ the wind is cold.",["and","but","because","or"],1,"But connects contrasting conditions."],
+
+["Connecting Ideas Using 'And' and 'But'","Which word joins two similar ideas?",["But","And","Because","Although"],1,"And is used to join similar ideas."],
+
+
+/* UNIT 7: READING A VARIETY OF TEXTS */
+
+["Reading a Variety of Texts","Read: Juma has a goat. The goat is white. What colour is the goat?",["Black","Brown","White","Grey"],2,"The passage says the goat is white."],
+
+["Reading a Variety of Texts","Read: Amina wakes up early. She washes her face and goes to school. What does Amina do after waking up?",["She washes her face.","She goes to sleep.","She cooks lunch.","She plays football."],0,"Amina washes her face after waking up."],
+
+["Reading a Variety of Texts","Read: There are five pupils in the classroom. How many pupils are there?",["Three","Four","Five","Six"],2,"The passage says there are five pupils."],
+
+["Reading a Variety of Texts","Read: Musa has a red bicycle. What does Musa have?",["A red bicycle","A blue bag","A black goat","A green book"],0,"Musa has a red bicycle."],
+
+["Reading a Variety of Texts","Read: The farmer keeps cows, goats and chickens. Who keeps these animals?",["A teacher","A farmer","A doctor","A driver"],1,"The passage says the farmer keeps the animals."],
+
+["Reading a Variety of Texts","Read: Neema likes reading books. She reads every evening. What does Neema like doing?",["Singing","Dancing","Reading books","Cooking"],2,"Neema likes reading books."],
+
+["Reading a Variety of Texts","Read: It rains heavily. The children stay inside the classroom. Where do the children stay?",["Outside","In the classroom","At the market","Under a tree"],1,"The children stay inside the classroom."],
+
+["Reading a Variety of Texts","Read: Our school has a big playground. Pupils play football there. What do pupils play?",["Netball only","Football","Basketball only","Volleyball only"],1,"The passage says pupils play football."],
+
+["Reading a Variety of Texts","Read: A bird builds its nest in a tree. Where does the bird build its nest?",["In a house","Under a table","In a tree","On the road"],2,"The bird builds its nest in a tree."],
+
+["Reading a Variety of Texts","Read: Fatuma has two sisters and one brother. How many children are mentioned as her siblings?",["One","Two","Three","Four"],2,"Two sisters and one brother make three siblings."]
+
 ],
 "Mathematics": [
 ["Numbers","What number comes after 29?",["28","30","31","39"],1,"30 comes after 29."],
@@ -244,7 +351,7 @@ const bank = {
 };
 
 const topicsBySubject = {
-"English":["All Topics","Vocabulary","Grammar","Sentence Making","Reading"],
+"English":["Using Personal Pronouns","Expressing Possession","Describing Routines","Describing Ongoing Activities","Connecting Ideas Using 'And' and 'But'","Reading a Variety of Texts"],
 "Mathematics":["All Topics","Numbers","Addition","Subtraction","Shapes and Measurement","Money and Time"],
 "Kiswahili":["All Topics","Msamiati","Sarufi","Sentensi","Ufahamu"],
 "Science and Technology":["All Topics","Living Things","Health and Hygiene","Materials and Energy","Safety"],
@@ -270,14 +377,14 @@ function updateQuestionOptions(){
    const first=[...select.options].find(o=>!o.disabled);
    if(first)select.value=first.value;
  }
- $("availabilityNote").textContent=`${$("subjectSelect").value}: ${available} questions available for "${$("topicSelect").value}". Choose All Topics to access all 30 questions.`;
+ $("availabilityNote").textContent=`${$("subjectSelect").value}: ${available} questions available for "${$("topicSelect").value}".`;
 }
 $("subjectSelect").addEventListener("change",updateTopics);
 $("topicSelect").addEventListener("change",updateQuestionOptions);
 $("continueBtn").onclick=()=>{
  const available=selectedPool().length,n=+$("countSelect").value;
- if(n>available){alert(`Only ${available} questions are available for this topic. Choose All Topics or a smaller number.`);return}
- $("summary").textContent=`Class: Standard Two | Subject: ${$("subjectSelect").value} | Topic: ${$("topicSelect").value} | Type: ${$("typeSelect").value} | Questions: ${n} | Time: ${$("durationSelect").value} minutes.`;
+if(n>available){alert(`Only ${available} questions are available for this topic. Choose a smaller number.`);return}
+ $("summary").textContent=`Class: Standard Three | Subject: ${$("subjectSelect").value} | Topic: ${$("topicSelect").value} | Type: ${$("typeSelect").value} | Questions: ${n} | Time: ${$("durationSelect").value} minutes.`;
  show("instructions");
 };
 $("changeBtn").onclick=()=>show("setup");
@@ -285,7 +392,7 @@ $("startBtn").onclick=()=>{
  quiz=selectedPool().slice().sort(()=>Math.random()-.5).slice(0,+$("countSelect").value);
  answers=Array(quiz.length).fill(null);current=0;finished=false;
  remaining=+$("durationSelect").value*60;
- $("quizTitle").textContent=`Standard Two • ${$("subjectSelect").value}`;
+ $("quizTitle").textContent=`Standard Three • ${$("subjectSelect").value}`;
  show("quiz");render();clock();clearInterval(timerId);
  timerId=setInterval(()=>{remaining--;clock();if(remaining<=0)finish()},1000);
 };
