@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Games | Alawi T.O.D</title>
+
+<style>
+:root {
+  --navy:#102b46;
+  --green:#16845b;
+  --light:#e8f5ee;
+  --paper:#ffffff;
+  --muted:#64748b;
+  --line:#dce5e9;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f8f6;
+  color:var(--navy);
+}
+
+header {
+  background:white;
+  border-bottom:1px solid var(--line);
+  padding:16px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo {
+  font-weight:bold;
+  color:var(--green);
+}
+
+.back {
+  text-decoration:none;
+  color:var(--navy);
+  border:1px solid var(--line);
+  padding:9px 14px;
+  border-radius:8px;
+  font-size:13px;
+}
+
+.container {
+  max-width:1100px;
+  margin:auto;
+  padding:35px 18px;
+}
+
+.hero {
+  background:linear-gradient(120deg,#e8f5ee,#ffffff);
+  padding:35px 25px;
+  border-radius:18px;
+  margin-bottom:30px;
+}
+
+.kicker {
+  color:var(--green);
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+h1 {
+  font-size:34px;
+  margin:12px 0;
+}
+
+h1 span {
+  color:var(--green);
+}
+
+.hero p {
+  color:var(--muted);
+  line-height:1.6;
+  max-width:650px;
+}
+
+.section-title {
+  margin-bottom:20px;
+}
+
+.section-title h2 {
+  margin-bottom:7px;
+}
+
+.section-title p {
+  color:var(--muted);
+  font-size:14px;
+}
+
+.games-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.game-card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:22px;
+  transition:.2s;
+}
+
+.game-card:hover {
+  transform:translateY(-4px);
+  border-color:var(--green);
+}
+
+.game-icon {
+  font-size:32px;
+}
+
+.game-card h3 {
+  margin:15px 0 8px;
+}
+
+.game-card p {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+  min-height:42px;
+}
+
+.play-btn {
+  display:inline-block;
+  background:var(--green);
+  color:white;
+  text-decoration:none;
+  padding:10px 17px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.coming {
+  display:inline-block;
+  background:var(--light);
+  color:var(--green);
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+footer {
+  border-top:1px solid var(--line);
+  padding:20px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:35px;
+}
+
+@media(max-width:750px) {
+  .games-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:480px) {
+  .games-grid {
+    grid-template-columns:1fr;
+  }
+
+  h1 {
+    font-size:27px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">ALAWI T.O.D.</div>
+  <a href="student-learning hub.html" class="back">← Back to Home</a>
+</header>
+
+<main class="container">
+
+<section class="hero">
+  <span class="kicker">PLAY · LEARN · SUCCEED</span>
+  <h1>Learning <span>Games</span></h1>
+  <p>
+    Welcome to Learning Games! Enjoy fun educational games,
+    solve puzzles, match words and pictures, and improve
+    your learning skills while playing.
+  </p>
+</section>
+
+<section>
+  <div class="section-title">
+    <h2>Choose Your Game</h2>
+    <p>Select a game below and get ready to learn through play.</p>
+  </div>
+
+  <div class="games-grid">
+
+    <article class="game-card">
+      <div class="game-icon">🧩</div>
+      <h3>Word Matching</h3>
+      <p>Match words with their correct meanings or pictures.</p>
+      <a href="word-matching-game.html" class="play-btn">Play Game</a>
+    </article>
+
+    <article class="game-card">
+      <div class="game-icon">🔤</div>
+      <h3>Sentence Builder</h3>
+      <p>Arrange words in the correct order to make sentences.</p>
+      <span class="coming">Coming Soon</span>
+    </article>
+
+    <article class="game-card">
+      <div class="game-icon">🔢</div>
+      <h3>Math Challenge</h3>
+      <p>Solve mathematical problems and improve your number skills.</p>
+      <span class="coming">Coming Soon</span>
+    </article>
+
+    <article class="game-card">
+      <div class="game-icon">🧠</div>
+      <h3>Memory Match</h3>
+      <p>Find matching cards by remembering their positions.</p>
+      <span class="coming">Coming Soon</span>
+    </article>
+
+    <article class="game-card">
+      <div class="game-icon">🔠</div>
+      <h3>Word Scramble</h3>
+      <p>Rearrange mixed-up letters to form correct words.</p>
+      <span class="coming">Coming Soon</span>
+    </article>
+
+    <article class="game-card">
+      <div class="game-icon">🔍</div>
+      <h3>Word Search</h3>
+      <p>Find hidden words in a grid of letters.</p>
+      <span class="coming">Coming Soon</span>
+    </article>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  © <span id="year"></span> Alawi T.O.D. Learning Games.
+  Learn something new every day.
+</footer>
+
+<script>
+document.getElementById("year").textContent =
+new Date().getFullYear();
+</script>
+
+</body>
+</html>
