@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Search Game | Alawi T.O.D</title>
+
+<style>
+:root {
+  --navy: #102b46;
+  --green: #16845b;
+  --light: #e8f5ee;
+  --white: #ffffff;
+  --gray: #f3f6f8;
+  --text: #263746;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--gray);
+  color: var(--text);
+}
+
+header {
+  background: var(--navy);
+  color: white;
+  padding: 25px 15px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 8px;
+}
+
+header p {
+  margin: 0;
+  opacity: .9;
+}
+
+.container {
+  width: min(950px, 94%);
+  margin: 25px auto;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--green);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.panel {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.07);
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: var(--navy);
+  margin-top: 0;
+}
+
+.levels {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 15px;
+}
+
+.level-btn {
+  background: var(--light);
+  color: var(--green);
+}
+
+.level-btn.active {
+  background: var(--green);
+  color: white;
+}
+
+#startBtn, #playAgain {
+  background: var(--green);
+  color: white;
+  margin-top: 15px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  text-align: center;
+}
+
+.stat {
+  background: var(--light);
+  padding: 14px 8px;
+  border-radius: 10px;
+}
+
+.stat strong {
+  display: block;
+  color: var(--green);
+  font-size: 22px;
+  margin-top: 5px;
+}
+
+.game-area {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 22px;
+  align-items: start;
+}
+
+.grid {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  touch-action: none;
+  user-select: none;
+}
+
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #edf2f5;
+  border-radius: 5px;
+  font-weight: bold;
+  color: var(--navy);
+  cursor: pointer;
+  font-size: clamp(12px, 2.5vw, 19px);
+}
+
+.cell.selected {
+  background: #b8e5cc;
+}
+
+.cell.found {
+  background: var(--green);
+  color: white;
+}
+
+.word-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.word-item {
+  padding: 9px 12px;
+  background: var(--gray);
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+.word-item.done {
+  color: var(--green);
+  text-decoration: line-through;
+  background: var(--light);
+}
+
+.instructions {
+  background: var(--light);
+  padding: 13px;
+  border-radius: 9px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+#message {
+  font-weight: bold;
+  margin-top: 15px;
+  min-height: 24px;
+}
+
+#result {
+  display: none;
+  text-align: center;
+}
+
+#result h2 {
+  color: var(--green);
+}
+
+@media(max-width: 650px) {
+  .game-area {
+    grid-template-columns: 1fr;
+  }
+
+  .word-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .panel {
+    padding: 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🔎 Word Search Game</h1>
+  <p>Find the hidden words in the letter grid!</p>
+</header>
+
+<div class="container">
+
+<a class="back" href="learning-games.html">← Back to Learning Games</a>
+
+<section class="panel">
+  <h2>Choose Difficulty</h2>
+
+  <div class="levels">
+    <button class="level-btn active" data-level="easy">Easy</button>
+    <button class="level-btn" data-level="medium">Medium</button>
+    <button class="level-btn" data-level="hard">Hard</button>
+  </div>
+
+  <button id="startBtn">Start Game</button>
+</section>
+
+<section class="panel">
+  <div class="stats">
+    <div class="stat">
+      Words Found
+      <strong id="foundCount">0</strong>
+    </div>
+
+    <div class="stat">
+      Score
+      <strong id="score">0</strong>
+    </div>
+
+    <div class="stat">
+      Time
+      <strong id="timer">00:00</strong>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="gamePanel">
+
+  <div class="instructions">
+    <strong>How to Play:</strong><br>
+    Find the words shown in the word list. Touch or click the first letter and drag to the last letter. Words may appear horizontally, vertically or diagonally. You can also find words backwards.
+  </div>
+
+  <div class="game-area">
+
+    <div>
+      <div class="grid" id="grid"></div>
+      <p id="message">Choose a level and press Start Game.</p>
+    </div>
+
+    <div>
+      <h2>Find These Words</h2>
+      <div class="word-list" id="wordList"></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="panel" id="result">
+  <h2>🎉 Congratulations!</h2>
+  <p id="resultMessage"></p>
+  <button id="playAgain">Play Again</button>
+</section>
+
+</div>
+
+<script>
+const levels = {
+  easy: {
+    size: 8,
+    words: ["APPLE", "BOOK", "DOG", "FISH"]
+  },
+  medium: {
+    size: 10,
+    words: ["TEACHER", "SCHOOL", "GARDEN", "FRIEND", "PENCIL", "MARKET"]
+  },
+  hard: {
+    size: 12,
+    words: ["ELEPHANT", "COMPUTER", "LANGUAGE", "HOSPITAL", "KNOWLEDGE", "EDUCATION", "BUTTERFLY", "IMPORTANT"]
+  }
+};
+
+const directions = [
+  [0,1], [1,0], [1,1], [1,-1],
+  [0,-1], [-1,0], [-1,-1], [-1,1]
+];
+
+let currentLevel = "easy";
+let board = [];
+let placements = [];
+let foundWords = [];
+let score = 0;
+let seconds = 0;
+let timerInterval = null;
+let gameStarted = false;
+let pointerStart = null;
+let currentPath = [];
+
+const gridElement = document.getElementById("grid");
+const wordListElement = document.getElementById("wordList");
+const messageElement = document.getElementById("message");
+
+function randomLetter() {
+  return "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 26)];
+}
+
+function createBoard() {
+  const size = levels[currentLevel].size;
+  const words = [...levels[currentLevel].words].sort((a,b) => b.length - a.length);
+
+  board = Array.from({length:size}, () =>
+    Array.from({length:size}, () => "")
+  );
+
+  placements = [];
+
+  words.forEach(word => {
+    let placed = false;
+
+    for (let attempt = 0; attempt < 500 && !placed; attempt++) {
+      const [dr, dc] = directions[Math.floor(Math.random() * directions.length)];
+      const row = Math.floor(Math.random() * size);
+      const col = Math.floor(Math.random() * size);
+
+      const endRow = row + (word.length - 1) * dr;
+      const endCol = col + (word.length - 1) * dc;
+
+      if (
+        endRow < 0 || endRow >= size ||
+        endCol < 0 || endCol >= size
+      ) continue;
+
+      let valid = true;
+
+      for (let i = 0; i < word.length; i++) {
+        const r = row + i * dr;
+        const c = col + i * dc;
+
+        if (board[r][c] !== "" && board[r][c] !== word[i]) {
+          valid = false;
+          break;
+        }
+      }
+
+      if (!valid) continue;
+
+      const cells = [];
+
+      for (let i = 0; i < word.length; i++) {
+        const r = row + i * dr;
+        const c = col + i * dc;
+
+        board[r][c] = word[i];
+        cells.push([r,c]);
+      }
+
+      placements.push({word, cells});
+      placed = true;
+    }
+
+    if (!placed) {
+      console.warn("Could not place word:", word);
+    }
+  });
+
+  board = board.map(row =>
+    row.map(letter => letter || randomLetter())
+  );
+}
+
+function renderGrid() {
+  const size = levels[currentLevel].size;
+
+  gridElement.innerHTML = "";
+  gridElement.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+
+  board.forEach((row, r) => {
+    row.forEach((letter, c) => {
+      const cell = document.createElement("div");
+
+      cell.className = "cell";
+      cell.textContent = letter;
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+
+      gridElement.appendChild(cell);
+    });
+  });
+}
+
+function renderWordList() {
+  wordListElement.innerHTML = "";
+
+  levels[currentLevel].words.forEach(word => {
+    const item = document.createElement("div");
+
+    item.className = "word-item";
+    item.id = "word-" + word;
+    item.textContent = word;
+
+    wordListElement.appendChild(item);
+  });
+}
+
+function updateStats() {
+  document.getElementById("foundCount").textContent =
+    foundWords.length;
+
+  document.getElementById("score").textContent = score;
+}
+
+function formatTime(value) {
+  const minutes = Math.floor(value / 60);
+  const secondsLeft = value % 60;
+
+  return String(minutes).padStart(2,"0") + ":" +
+         String(secondsLeft).padStart(2,"0");
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    if (!gameStarted) return;
+
+    seconds++;
+    document.getElementById("timer").textContent =
+      formatTime(seconds);
+  }, 1000);
+}
+
+function startGame() {
+  clearInterval(timerInterval);
+
+  foundWords = [];
+  score = 0;
+  seconds = 0;
+  gameStarted = true;
+
+  document.getElementById("timer").textContent = "00:00";
+  document.getElementById("result").style.display = "none";
+  document.getElementById("gamePanel").style.display = "block";
+
+  createBoard();
+  renderGrid();
+  renderWordList();
+  updateStats();
+
+  messageElement.textContent = "Find all the hidden words!";
+  startTimer();
+}
+
+function getCellFromPoint(x, y) {
+  const element = document.elementFromPoint(x,y);
+
+  if (!element || !element.classList.contains("cell")) {
+    return null;
+  }
+
+  return element;
+}
+
+function getStraightPath(start, end) {
+  const dr = end.row - start.row;
+  const dc = end.col - start.col;
+
+  if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) {
+    return [];
+  }
+
+  const steps = Math.max(Math.abs(dr), Math.abs(dc));
+
+  if (steps === 0) return [start];
+
+  const rowStep = Math.sign(dr);
+  const colStep = Math.sign(dc);
+
+  const path = [];
+
+  for (let i = 0; i <= steps; i++) {
+    path.push({
+      row: start.row + i * rowStep,
+      col: start.col + i * colStep
+    });
+  }
+
+  return path;
+}
+
+function clearSelection() {
+  document.querySelectorAll(".cell.selected").forEach(cell => {
+    cell.classList.remove("selected");
+  });
+}
+
+function highlightPath(path) {
+  clearSelection();
+
+  path.forEach(position => {
+    const cell = document.querySelector(
+      `.cell[data-row="${position.row}"][data-col="${position.col}"]`
+    );
+
+    if (cell && !cell.classList.contains("found")) {
+      cell.classList.add("selected");
+    }
+  });
+}
+
+function checkPath(path) {
+  if (!gameStarted || path.length < 2) return;
+
+  const selectedWord = path.map(position =>
+    board[position.row][position.col]
+  ).join("");
+
+  const reversedWord = selectedWord.split("").reverse().join("");
+
+  const match = levels[currentLevel].words.find(word =>
+    !foundWords.includes(word) &&
+    (word === selectedWord || word === reversedWord)
+  );
+
+  if (match) {
+    foundWords.push(match);
+    score += match.length * 10;
+
+    const wordElement = document.getElementById("word-" + match);
+
+    if (wordElement) {
+      wordElement.classList.add("done");
+      wordElement.textContent = "✓ " + match;
+    }
+
+    path.forEach(position => {
+      const cell = document.querySelector(
+        `.cell[data-row="${position.row}"][data-col="${position.col}"]`
+      );
+
+      if (cell) {
+        cell.classList.remove("selected");
+        cell.classList.add("found");
+      }
+    });
+
+    messageElement.textContent = "Excellent! You found " + match + "!";
+    updateStats();
+
+    if (foundWords.length === levels[currentLevel].words.length) {
+      finishGame();
+    }
+
+  } else {
+    clearSelection();
+    messageElement.textContent = "Not a matching word. Try again!";
+  }
+}
+
+function finishGame() {
+  gameStarted = false;
+  clearInterval(timerInterval);
+
+  document.getElementById("gamePanel").style.display = "none";
+  document.getElementById("result").style.display = "block";
+
+  document.getElementById("resultMessage").textContent =
+    "You found all " + foundWords.length +
+    " words and scored " + score +
+    " points in " + formatTime(seconds) + ".";
+
+  document.getElementById("result").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+// Mouse and touch selection
+gridElement.addEventListener("pointerdown", event => {
+  if (!gameStarted) return;
+
+  const cell = getCellFromPoint(event.clientX, event.clientY);
+  if (!cell) return;
+
+  event.preventDefault();
+
+  pointerStart = {
+    row: Number(cell.dataset.row),
+    col: Number(cell.dataset.col)
+  };
+
+  currentPath = [pointerStart];
+  highlightPath(currentPath);
+});
+
+gridElement.addEventListener("pointermove", event => {
+  if (!pointerStart || !gameStarted) return;
+
+  const cell = getCellFromPoint(event.clientX, event.clientY);
+  if (!cell) return;
+
+  const end = {
+    row: Number(cell.dataset.row),
+    col: Number(cell.dataset.col)
+  };
+
+  currentPath = getStraightPath(pointerStart, end);
+
+  if (currentPath.length) {
+    highlightPath(currentPath);
+  }
+});
+
+function finishSelection(event) {
+  if (!pointerStart) return;
+
+  if (event) {
+    const cell = getCellFromPoint(event.clientX, event.clientY);
+
+    if (cell) {
+      const end = {
+        row: Number(cell.dataset.row),
+        col: Number(cell.dataset.col)
+      };
+
+      currentPath = getStraightPath(pointerStart, end);
+    }
+  }
+
+  checkPath(currentPath);
+
+  pointerStart = null;
+  currentPath = [];
+}
+
+gridElement.addEventListener("pointerup", finishSelection);
+gridElement.addEventListener("pointercancel", finishSelection);
+
+document.querySelectorAll(".level-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    currentLevel = button.dataset.level;
+
+    document.querySelectorAll(".level-btn").forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    messageElement.textContent =
+      "Selected " + currentLevel + " level. Press Start Game.";
+  });
+});
+
+document.getElementById("startBtn").addEventListener("click", startGame);
+document.getElementById("playAgain").addEventListener("click", startGame);
+</script>
+
+</body>
+</html>
