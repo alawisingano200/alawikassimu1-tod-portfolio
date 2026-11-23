@@ -1,0 +1,633 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Matching Game | Alawi T.O.D</title>
+
+<style>
+:root {
+  --navy:#102b46;
+  --green:#16845b;
+  --light:#e8f5ee;
+  --paper:#ffffff;
+  --muted:#64748b;
+  --line:#dce5e9;
+  --red:#dc4444;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f8f6;
+  color:var(--navy);
+}
+
+header{
+  background:white;
+  border-bottom:1px solid var(--line);
+  padding:16px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-weight:bold;
+  color:var(--green);
+}
+
+.back{
+  text-decoration:none;
+  color:var(--navy);
+  border:1px solid var(--line);
+  padding:9px 14px;
+  border-radius:8px;
+  font-size:13px;
+}
+
+.container{
+  max-width:850px;
+  margin:auto;
+  padding:30px 16px;
+}
+
+.hero{
+  text-align:center;
+  background:linear-gradient(120deg,#e8f5ee,#ffffff);
+  padding:28px 18px;
+  border-radius:18px;
+  margin-bottom:25px;
+}
+
+.hero-icon{font-size:42px}
+
+.hero h1{
+  margin:10px 0;
+  font-size:30px;
+}
+
+.hero h1 span{color:var(--green)}
+
+.hero p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.panel{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:23px;
+  margin-bottom:20px;
+}
+
+.panel h2{margin-top:0}
+
+.levels{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.level{
+  border:2px solid var(--line);
+  background:white;
+  padding:17px 8px;
+  border-radius:12px;
+  cursor:pointer;
+  text-align:center;
+  color:var(--navy);
+}
+
+.level strong{
+  display:block;
+  font-size:16px;
+  margin-bottom:6px;
+}
+
+.level small{color:var(--muted)}
+
+.level.active{
+  border-color:var(--green);
+  background:var(--light);
+}
+
+button{
+  font-family:inherit;
+}
+
+.primary{
+  display:block;
+  width:100%;
+  background:var(--green);
+  color:white;
+  border:0;
+  padding:14px;
+  border-radius:9px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:18px;
+}
+
+.primary:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.stat{
+  background:var(--light);
+  padding:13px 6px;
+  border-radius:10px;
+  text-align:center;
+}
+
+.stat small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:5px;
+}
+
+.stat strong{font-size:19px}
+
+.match-instruction{
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+  margin:15px 0 20px;
+}
+
+.match-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.match-column h3{
+  text-align:center;
+  font-size:14px;
+  margin-bottom:12px;
+}
+
+.tile{
+  width:100%;
+  min-height:65px;
+  padding:12px 8px;
+  margin-bottom:10px;
+  border:2px solid var(--line);
+  background:white;
+  border-radius:10px;
+  color:var(--navy);
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.tile.selected{
+  border-color:var(--green);
+  background:var(--light);
+}
+
+.tile.matched{
+  border-color:#a7dfc3;
+  background:#e8f5ee;
+  color:var(--green);
+  opacity:.7;
+  cursor:default;
+}
+
+.tile.wrong{
+  border-color:var(--red);
+  background:#fff0f0;
+}
+
+#feedback{
+  text-align:center;
+  min-height:25px;
+  font-weight:bold;
+  margin-top:12px;
+}
+
+.hidden{display:none!important}
+
+.result-icon{
+  font-size:55px;
+  text-align:center;
+}
+
+.result-box{text-align:center}
+
+.result-box h2{font-size:27px}
+
+.result-score{
+  font-size:38px;
+  color:var(--green);
+  font-weight:bold;
+  margin:15px;
+}
+
+.result-box p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+@media(max-width:480px){
+  .hero h1{font-size:25px}
+  .panel{padding:16px}
+  .tile{font-size:12px;min-height:62px}
+  .levels{gap:7px}
+  .level{padding:13px 4px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">ALAWI T.O.D.</div>
+  <a href="learning-games.html" class="back">← All Games</a>
+</header>
+
+<main class="container">
+
+<section class="hero">
+  <div class="hero-icon">🧩</div>
+  <h1>Word <span>Matching Game</span></h1>
+  <p>
+    Match each word with its correct meaning.
+    Choose your level and challenge yourself!
+  </p>
+</section>
+
+<section class="panel" id="levelScreen">
+  <h2>Choose Your Level</h2>
+  <p style="color:var(--muted)">Select a level that matches your learning ability.</p>
+
+  <div class="levels">
+    <button class="level active" data-level="Easy">
+      <strong>🟢 Easy</strong>
+      <small>4 pairs</small>
+    </button>
+
+    <button class="level" data-level="Medium">
+      <strong>🟡 Medium</strong>
+      <small>6 pairs</small>
+    </button>
+
+    <button class="level" data-level="Hard">
+      <strong>🔴 Hard</strong>
+      <small>8 pairs</small>
+    </button>
+  </div>
+
+  <button class="primary" id="startBtn">Start Game</button>
+</section>
+
+<section class="panel hidden" id="gameScreen">
+
+  <div class="stats">
+    <div class="stat">
+      <small>POINTS</small>
+      <strong id="score">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>MATCHED</small>
+      <strong id="matched">0/4</strong>
+    </div>
+
+    <div class="stat">
+      <small>TIME</small>
+      <strong id="timer">00:00</strong>
+    </div>
+  </div>
+
+  <div class="match-instruction">
+    Select a word on the left, then select its meaning on the right.
+  </div>
+
+  <div class="match-grid">
+
+    <div class="match-column">
+      <h3>WORDS</h3>
+      <div id="words"></div>
+    </div>
+
+    <div class="match-column">
+      <h3>MEANINGS</h3>
+      <div id="meanings"></div>
+    </div>
+
+  </div>
+
+  <div id="feedback"></div>
+
+  <button class="primary" id="restartBtn">Restart Game</button>
+
+</section>
+
+<section class="panel hidden result-box" id="resultScreen">
+  <div class="result-icon" id="resultIcon">🏆</div>
+  <h2 id="resultTitle">Excellent Work!</h2>
+  <div class="result-score" id="finalScore">40 Points</div>
+  <p id="resultMessage"></p>
+
+  <button class="primary" id="playAgainBtn">Play Again</button>
+  <button class="primary" id="changeLevelBtn" style="background:var(--navy)">
+    Choose Another Level
+  </button>
+</section>
+
+</main>
+
+<footer>
+  © <span id="year"></span> Alawi T.O.D. Learning Games.
+  Learn something new every day.
+</footer>
+
+<script>
+const gameData = {
+  Easy: [
+    ["Apple","A fruit"],
+    ["Dog","An animal"],
+    ["Book","Something we read"],
+    ["Teacher","A person who teaches"]
+  ],
+
+  Medium: [
+    ["Brave","Not afraid of danger"],
+    ["Tiny","Very small"],
+    ["Rapid","Very fast"],
+    ["Silent","Making no sound"],
+    ["Ancient","Very old"],
+    ["Honest","Always telling the truth"]
+  ],
+
+  Hard: [
+    ["Enormous","Extremely large"],
+    ["Purchase","To buy something"],
+    ["Protect","To keep safe"],
+    ["Observe","To watch carefully"],
+    ["Generous","Willing to give to others"],
+    ["Difficult","Not easy to do"],
+    ["Assist","To help someone"],
+    ["Discover","To find something new"]
+  ]
+};
+
+let selectedLevel = "Easy";
+let selectedWord = null;
+let selectedMeaning = null;
+let score = 0;
+let matchedCount = 0;
+let attempts = 0;
+let pairs = [];
+let startTime = 0;
+let timerInterval = null;
+let gameFinished = false;
+
+const $ = id => document.getElementById(id);
+
+$("year").textContent = new Date().getFullYear();
+
+document.querySelectorAll(".level").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedLevel = button.dataset.level;
+
+    document.querySelectorAll(".level").forEach(b =>
+      b.classList.remove("active")
+    );
+
+    button.classList.add("active");
+  });
+});
+
+$("startBtn").onclick = startGame;
+$("restartBtn").onclick = startGame;
+$("playAgainBtn").onclick = startGame;
+
+$("changeLevelBtn").onclick = () => {
+  clearInterval(timerInterval);
+  $("resultScreen").classList.add("hidden");
+  $("levelScreen").classList.remove("hidden");
+};
+
+function shuffle(array){
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function startGame(){
+
+  clearInterval(timerInterval);
+
+  pairs = shuffle(gameData[selectedLevel]);
+  score = 0;
+  matchedCount = 0;
+  attempts = 0;
+  selectedWord = null;
+  selectedMeaning = null;
+  gameFinished = false;
+
+  $("score").textContent = "0";
+  $("matched").textContent = "0/" + pairs.length;
+  $("feedback").textContent = "";
+
+  $("levelScreen").classList.add("hidden");
+  $("resultScreen").classList.add("hidden");
+  $("gameScreen").classList.remove("hidden");
+
+  const wordItems = shuffle(
+    pairs.map((pair,index) => ({
+      text:pair[0],
+      index:index
+    }))
+  );
+
+  const meaningItems = shuffle(
+    pairs.map((pair,index) => ({
+      text:pair[1],
+      index:index
+    }))
+  );
+
+  $("words").innerHTML = wordItems.map(item =>
+    `<button class="tile word-tile" data-index="${item.index}">
+      ${item.text}
+    </button>`
+  ).join("");
+
+  $("meanings").innerHTML = meaningItems.map(item =>
+    `<button class="tile meaning-tile" data-index="${item.index}">
+      ${item.text}
+    </button>`
+  ).join("");
+
+  document.querySelectorAll(".word-tile").forEach(button => {
+    button.onclick = () => selectTile(button,"word");
+  });
+
+  document.querySelectorAll(".meaning-tile").forEach(button => {
+    button.onclick = () => selectTile(button,"meaning");
+  });
+
+  startTime = Date.now();
+  updateTimer();
+
+  timerInterval = setInterval(updateTimer,1000);
+}
+
+function selectTile(button,type){
+
+  if(gameFinished || button.classList.contains("matched")) return;
+
+  if(type === "word"){
+
+    if(selectedWord === button){
+      button.classList.remove("selected");
+      selectedWord = null;
+      return;
+    }
+
+    if(selectedWord){
+      selectedWord.classList.remove("selected");
+    }
+
+    selectedWord = button;
+    button.classList.add("selected");
+
+  }else{
+
+    if(selectedMeaning === button){
+      button.classList.remove("selected");
+      selectedMeaning = null;
+      return;
+    }
+
+    if(selectedMeaning){
+      selectedMeaning.classList.remove("selected");
+    }
+
+    selectedMeaning = button;
+    button.classList.add("selected");
+  }
+
+  if(selectedWord && selectedMeaning){
+    checkMatch();
+  }
+}
+
+function checkMatch(){
+
+  attempts++;
+
+  const wordIndex = Number(selectedWord.dataset.index);
+  const meaningIndex = Number(selectedMeaning.dataset.index);
+
+  if(wordIndex === meaningIndex){
+
+    selectedWord.classList.remove("selected");
+    selectedMeaning.classList.remove("selected");
+
+    selectedWord.classList.add("matched");
+    selectedMeaning.classList.add("matched");
+
+    selectedWord.disabled = true;
+    selectedMeaning.disabled = true;
+
+    score += 10;
+    matchedCount++;
+
+    $("feedback").style.color = "var(--green)";
+    $("feedback").textContent = "Correct match! +10 points";
+
+    $("score").textContent = score;
+    $("matched").textContent = matchedCount + "/" + pairs.length;
+
+    selectedWord = null;
+    selectedMeaning = null;
+
+    if(matchedCount === pairs.length){
+      setTimeout(finishGame,700);
+    }
+
+  }else{
+
+    const wrongWord = selectedWord;
+    const wrongMeaning = selectedMeaning;
+
+    wrongWord.classList.add("wrong");
+    wrongMeaning.classList.add("wrong");
+
+    $("feedback").style.color = "var(--red)";
+    $("feedback").textContent = "Not a match. Try again!";
+
+    selectedWord = null;
+    selectedMeaning = null;
+
+    setTimeout(() => {
+      wrongWord.classList.remove("wrong","selected");
+      wrongMeaning.classList.remove("wrong","selected");
+    },600);
+  }
+}
+
+function updateTimer(){
+
+  const seconds = Math.floor((Date.now()-startTime)/1000);
+  const minutes = Math.floor(seconds/60);
+  const remaining = seconds%60;
+
+  $("timer").textContent =
+    String(minutes).padStart(2,"0") + ":" +
+    String(remaining).padStart(2,"0");
+}
+
+function finishGame(){
+
+  if(gameFinished) return;
+
+  gameFinished = true;
+  clearInterval(timerInterval);
+
+  const accuracy = Math.round((matchedCount / attempts)*100);
+
+  $("gameScreen").classList.add("hidden");
+  $("resultScreen").classList.remove("hidden");
+
+  $("finalScore").textContent = score + " Points";
+
+  $("resultIcon").textContent =
+    accuracy >= 80 ? "🏆" : accuracy >= 50 ? "⭐" : "💪";
+
+  $("resultTitle").textContent =
+    accuracy >= 80 ? "Excellent Work!" :
+    accuracy >= 50 ? "Good Job!" :
+    "Keep Practising!";
+
+  $("resultMessage").textContent =
+    `You completed ${selectedLevel} level with ${matchedCount} correct matches. You scored ${score} points with ${accuracy}% accuracy. Keep learning and improving!`;
+}
+</script>
+
+</body>
+</html>
+```
