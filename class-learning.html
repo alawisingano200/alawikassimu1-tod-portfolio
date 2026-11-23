@@ -120,16 +120,20 @@ if (selectedClass === 'Standard Two' && englishCard) {
 }
 const quizCard = document.getElementById('quizCard');
 
-if (selectedClass === 'Standard Two' && quizCard) {
+if ((selectedClass === 'Standard Two' || selectedClass === 'Standard Three') && quizCard) {
   quizCard.style.cursor = 'pointer';
   quizCard.querySelector('.status').textContent = 'Start Quiz';
 
   quizCard.setAttribute('role', 'link');
   quizCard.setAttribute('tabindex', '0');
 
-  function openQuiz() {
+ function openQuiz() {
+  if (selectedClass === 'Standard Three') {
+    window.location.href = 'online-quiz-standard-three.html';
+  } else {
     window.location.href = 'online-quiz-standard-two.html';
   }
+}
 
   quizCard.addEventListener('click', openQuiz);
 
