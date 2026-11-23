@@ -306,8 +306,8 @@ const levels = {
 };
 
 const directions = [
-  [0,1], [1,0], [1,1], [1,-1],
-  [0,-1], [-1,0], [-1,-1], [-1,1]
+  [0,1],
+  [1,0]
 ];
 
 let currentLevel = "easy";
@@ -489,10 +489,9 @@ function getStraightPath(start, end) {
   const dr = end.row - start.row;
   const dc = end.col - start.col;
 
-  if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) {
-    return [];
-  }
-
+  if (dr !== 0 && dc !== 0) {
+  return [];
+}
   const steps = Math.max(Math.abs(dr), Math.abs(dc));
 
   if (steps === 0) return [start];
@@ -539,12 +538,10 @@ function checkPath(path) {
     board[position.row][position.col]
   ).join("");
 
-  const reversedWord = selectedWord.split("").reverse().join("");
-
   const match = levels[currentLevel].words.find(word =>
-    !foundWords.includes(word) &&
-    (word === selectedWord || word === reversedWord)
-  );
+  !foundWords.includes(word) &&
+  word === selectedWord
+);
 
   if (match) {
     foundWords.push(match);
