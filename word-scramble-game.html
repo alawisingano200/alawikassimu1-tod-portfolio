@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Scramble Game | Alawi T.O.D</title>
+
+<style>
+:root {
+  --navy: #102b46;
+  --green: #16845b;
+  --light: #e8f5ee;
+  --white: #ffffff;
+  --gray: #f3f6f8;
+  --text: #263746;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--gray);
+  color: var(--text);
+}
+
+header {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+  padding: 28px 15px;
+}
+
+header h1 {
+  margin: 0 0 8px;
+}
+
+header p {
+  margin: 0;
+}
+
+.container {
+  width: min(850px, 94%);
+  margin: 25px auto;
+}
+
+.back {
+  display: inline-block;
+  color: var(--green);
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.panel {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.07);
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: var(--navy);
+  margin-top: 0;
+}
+
+.levels {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.level-btn {
+  background: var(--light);
+  color: var(--green);
+}
+
+.level-btn.active {
+  background: var(--green);
+  color: white;
+}
+
+.primary-btn {
+  background: var(--green);
+  color: white;
+}
+
+.secondary-btn {
+  background: var(--navy);
+  color: white;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+  text-align: center;
+}
+
+.stat {
+  background: var(--light);
+  padding: 14px 8px;
+  border-radius: 10px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 23px;
+  color: var(--green);
+  margin-top: 5px;
+}
+
+.game-content {
+  text-align: center;
+}
+
+.scrambled-word {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 25px 0;
+}
+
+.letter {
+  width: 48px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--light);
+  color: var(--navy);
+  border: 2px solid #b9dfca;
+  border-radius: 9px;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.question {
+  font-size: 17px;
+  margin: 15px 0;
+}
+
+.answer-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 14px;
+  border: 2px solid #d8e1e8;
+  border-radius: 8px;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.answer-input:focus {
+  border-color: var(--green);
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+#message {
+  min-height: 28px;
+  font-weight: bold;
+  margin-top: 18px;
+}
+
+.hint {
+  background: var(--light);
+  padding: 13px;
+  border-radius: 9px;
+  margin: 15px 0;
+  line-height: 1.5;
+}
+
+#result {
+  display: none;
+  text-align: center;
+}
+
+#result h2 {
+  color: var(--green);
+}
+
+@media(max-width: 500px) {
+  .panel {
+    padding: 16px;
+  }
+
+  .letter {
+    width: 39px;
+    height: 45px;
+    font-size: 19px;
+  }
+
+  .stats {
+    gap: 7px;
+  }
+
+  .stat {
+    font-size: 13px;
+  }
+
+  .stat strong {
+    font-size: 19px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🔠 Word Scramble</h1>
+  <p>Rearrange mixed-up letters to form correct words!</p>
+</header>
+
+<div class="container">
+
+<a href="learning-games.html" class="back">← Back to Learning Games</a>
+
+<section class="panel">
+  <h2>Choose Difficulty</h2>
+
+  <div class="levels">
+    <button class="level-btn active" data-level="easy">Easy</button>
+    <button class="level-btn" data-level="medium">Medium</button>
+    <button class="level-btn" data-level="hard">Hard</button>
+  </div>
+
+  <button class="primary-btn" id="startBtn" style="margin-top:15px;">
+    Start Game
+  </button>
+</section>
+
+<section class="panel">
+  <div class="stats">
+
+    <div class="stat">
+      Score
+      <strong id="score">0</strong>
+    </div>
+
+    <div class="stat">
+      Question
+      <strong id="questionNumber">0/10</strong>
+    </div>
+
+    <div class="stat">
+      Time
+      <strong id="timer">00:00</strong>
+    </div>
+
+  </div>
+</section>
+
+<section class="panel game-content" id="gamePanel">
+
+  <div class="hint">
+    <strong>How to Play:</strong><br>
+    Rearrange the mixed-up letters to make the correct word. Read the clue, type your answer and click Check Answer.
+  </div>
+
+  <p class="question" id="clue">
+    Press Start Game to begin.
+  </p>
+
+  <div class="scrambled-word" id="scrambledWord"></div>
+
+  <input
+    type="text"
+    id="answerInput"
+    class="answer-input"
+    placeholder="Type your answer here"
+    autocomplete="off"
+    disabled
+  >
+
+  <div class="action-buttons">
+    <button class="primary-btn" id="checkBtn" disabled>
+      Check Answer
+    </button>
+
+    <button class="secondary-btn" id="hintBtn" disabled>
+      Show Hint
+    </button>
+  </div>
+
+  <p id="message"></p>
+
+  <button class="primary-btn" id="nextBtn" style="display:none;">
+    Next Word →
+  </button>
+
+</section>
+
+<section class="panel" id="result">
+
+  <h2>🎉 Game Completed!</h2>
+
+  <p id="resultMessage"></p>
+
+  <button class="primary-btn" id="playAgain">
+    Play Again
+  </button>
+
+</section>
+
+</div>
+
+<script>
+
+const wordBank = {
+
+  easy: [
+    {word:"DOCTOR", clue:"A person who treats sick people.", hint:"It starts with D."},
+    {word:"BOOK", clue:"Something we read.", hint:"It has four letters."},
+    {word:"DOG", clue:"An animal that barks.", hint:"It starts with D."},
+    {word:"FISH", clue:"An animal that lives in water.", hint:"It starts with F."},
+    {word:"BALL", clue:"A round object used in many games.", hint:"It starts with B."},
+    {word:"MILK", clue:"A white drink from cows of goat.", hint:"It starts with M."},
+    {word:"TREE", clue:"A tall plant with branches.", hint:"It starts with T."},
+    {word:"BIRD", clue:"An animal that has wings and feathers.", hint:"It starts with B."},
+    {word:"CAKE", clue:"A sweet food often eaten at celebrations.", hint:"It starts with C."},
+    {word:"FROG", clue:"A green animal that can jump and like to live in water sources.", hint:"It starts with F."}
+  ],
+
+  medium: [
+    {word:"TEACHER", clue:"A person who teaches at school.", hint:"It starts with T."},
+    {word:"SCHOOL", clue:"A place where children learn.", hint:"It starts with S."},
+    {word:"GARDEN", clue:"A place where flowers and vegetables grow.", hint:"It starts with G."},
+    {word:"FRIEND", clue:"A person you know and like.", hint:"It starts with F."},
+    {word:"PENCIL", clue:"An object used for writing and drawing.", hint:"It starts with P."},
+    {word:"MARKET", clue:"A place where people buy and sell things.", hint:"It starts with M."},
+    {word:"WINDOW", clue:"An opening in a wall that lets in light.", hint:"It starts with W."},
+    {word:"MOTHER", clue:"A female parent.", hint:"It starts with M."},
+    {word:"COUNTRY", clue:"An area of land with its own government.", hint:"It starts with C."},
+    {word:"ANIMAL", clue:"A living creature that is not a plant.", hint:"It starts with A."}
+  ],
+
+  hard: [
+    {word:"ELEPHANT", clue:"A very large animal with a trunk.", hint:"It starts with E."},
+    {word:"COMPUTER", clue:"An electronic machine used to process information.", hint:"It starts with C."},
+    {word:"LANGUAGE", clue:"A system of words used for communication.", hint:"It starts with L."},
+    {word:"HOSPITAL", clue:"A place where sick people receive medical care.", hint:"It starts with H."},
+    {word:"KNOWLEDGE", clue:"Information and understanding gained through learning.", hint:"It starts with K."},
+    {word:"EDUCATION", clue:"The process of teaching and learning.", hint:"It starts with E."},
+    {word:"BUTTERFLY", clue:"An insect with colourful wings.", hint:"It starts with B."},
+    {word:"IMPORTANT", clue:"Something that has great value or meaning.", hint:"It starts with I."},
+    {word:"ENVIRONMENT", clue:"Anything that sorround us.", hint:"It starts with E."},
+    {word:"DISCOVERY", clue:"Finding something for the first time.", hint:"It starts with D."}
+  ]
+
+};
+
+let currentLevel = "easy";
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+let seconds = 0;
+let timerInterval = null;
+let gameStarted = false;
+let answered = false;
+
+const $ = id => document.getElementById(id);
+
+function shuffleArray(array) {
+  const result = [...array];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
+function scrambleWord(word) {
+  let letters = word.split("");
+  let scrambled = word;
+
+  for (let attempt = 0; attempt < 30 && scrambled === word; attempt++) {
+    scrambled = shuffleArray(letters).join("");
+  }
+
+  return scrambled;
+}
+
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const secondsLeft = totalSeconds % 60;
+
+  return String(minutes).padStart(2,"0") + ":" +
+         String(secondsLeft).padStart(2,"0");
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    if (!gameStarted) return;
+
+    seconds++;
+
+    $("timer").textContent = formatTime(seconds);
+  },1000);
+}
+
+function startGame() {
+  clearInterval(timerInterval);
+
+  questions = shuffleArray(wordBank[currentLevel]);
+  currentIndex = 0;
+  score = 0;
+  seconds = 0;
+  gameStarted = true;
+
+  $("score").textContent = score;
+  $("timer").textContent = "00:00";
+
+  $("result").style.display = "none";
+  $("gamePanel").style.display = "block";
+
+  startTimer();
+  showQuestion();
+}
+
+function showQuestion() {
+
+  answered = false;
+
+  const question = questions[currentIndex];
+
+  $("questionNumber").textContent =
+    (currentIndex + 1) + "/" + questions.length;
+
+  $("clue").textContent = question.clue;
+
+  const scrambled = scrambleWord(question.word);
+
+  $("scrambledWord").innerHTML = "";
+
+  scrambled.split("").forEach(letter => {
+    const box = document.createElement("div");
+
+    box.className = "letter";
+    box.textContent = letter;
+
+    $("scrambledWord").appendChild(box);
+  });
+
+  $("answerInput").value = "";
+  $("answerInput").disabled = false;
+  $("answerInput").focus();
+
+  $("checkBtn").disabled = false;
+  $("hintBtn").disabled = false;
+
+  $("nextBtn").style.display = "none";
+
+  $("message").textContent = "Arrange the letters and find the correct word!";
+}
+
+function checkAnswer() {
+
+  if (!gameStarted || answered) return;
+
+  const answer = $("answerInput").value.trim().toUpperCase();
+  const correctAnswer = questions[currentIndex].word;
+
+  if (!answer) {
+    $("message").textContent = "Please enter your answer first.";
+    return;
+  }
+
+  if (answer === correctAnswer) {
+
+    answered = true;
+
+    score += 10;
+
+    $("score").textContent = score;
+
+    $("message").textContent = "🎉 Excellent! That is correct!";
+
+    $("message").style.color = "var(--green)";
+
+    $("answerInput").disabled = true;
+    $("checkBtn").disabled = true;
+    $("hintBtn").disabled = true;
+
+    $("nextBtn").style.display = "inline-block";
+
+    if (currentIndex === questions.length - 1) {
+      $("nextBtn").textContent = "See Results";
+    }
+
+  } else {
+
+    $("message").textContent = "Not quite! Try again.";
+
+    $("message").style.color = "#c0392b";
+
+  }
+
+}
+
+function showHint() {
+
+  if (!gameStarted || answered) return;
+
+  const question = questions[currentIndex];
+
+  $("message").textContent = "💡 Hint: " + question.hint;
+  $("message").style.color = "var(--navy)";
+
+}
+
+function nextQuestion() {
+
+  if (currentIndex < questions.length - 1) {
+
+    currentIndex++;
+    showQuestion();
+
+  } else {
+
+    finishGame();
+
+  }
+
+}
+
+function finishGame() {
+
+  gameStarted = false;
+
+  clearInterval(timerInterval);
+
+  $("gamePanel").style.display = "none";
+  $("result").style.display = "block";
+
+  $("resultMessage").textContent =
+    "You completed " + questions.length +
+    " words and scored " + score +
+    " points in " + formatTime(seconds) + ".";
+
+  $("result").scrollIntoView({behavior:"smooth"});
+
+}
+
+document.querySelectorAll(".level-btn").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    currentLevel = button.dataset.level;
+
+    document.querySelectorAll(".level-btn").forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+  });
+
+});
+
+$("startBtn").addEventListener("click",startGame);
+$("checkBtn").addEventListener("click",checkAnswer);
+$("hintBtn").addEventListener("click",showHint);
+$("nextBtn").addEventListener("click",nextQuestion);
+$("playAgain").addEventListener("click",startGame);
+
+$("answerInput").addEventListener("keydown",event => {
+
+  if (event.key === "Enter") {
+    checkAnswer();
+  }
+
+});
+
+</script>
+
+</body>
+</html>
